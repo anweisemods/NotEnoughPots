@@ -1,0 +1,10 @@
+
+# IntellIJ
+/.idea
+
+# Gradle generated
+**/build
+**/runs
+**/run
+.gradle
+
