@@ -1,0 +1,9 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_parts_tinted",
+  "textures": {
+    "bottom": "minecraft:block/large_fern_bottom",
+    "top": "minecraft:block/large_fern_top"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_parts",
+  "textures": {
+    "bottom": "minecraft:block/peony_bottom",
+    "top": "minecraft:block/peony_top"
+  }
+}

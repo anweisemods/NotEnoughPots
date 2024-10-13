@@ -1,0 +1,8 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "minecraft:block/flower_pot_cross",
+  "textures": {
+    "plant": "minecraft:block/sweet_berry_bush_stage3"
+  }
+}
