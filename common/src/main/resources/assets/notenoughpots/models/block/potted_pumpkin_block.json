@@ -1,0 +1,9 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_block",
+  "textures": {
+    "side": "minecraft:block/pumpkin_side",
+    "top": "minecraft:block/pumpkin_top"
+  }
+}

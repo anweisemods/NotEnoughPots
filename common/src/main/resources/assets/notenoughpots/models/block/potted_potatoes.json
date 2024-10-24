@@ -1,0 +1,8 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_crop",
+  "textures": {
+    "crop": "minecraft:block/potatoes_stage3"
+  }
+}
