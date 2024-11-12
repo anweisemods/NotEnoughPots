@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -43,7 +42,8 @@ public enum NotEnoughPotsBlockType {
   }
 
   public static Block flowerPot(Block flower) {
-    return new FlowerPotBlock(flower, BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT));
+    // BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT) does no longer work in 1.21.2+
+    return new FlowerPotBlock(flower, Blocks.FLOWER_POT.properties());
   }
 
   public static Block registerBuiltIn(String name, Block block) {
