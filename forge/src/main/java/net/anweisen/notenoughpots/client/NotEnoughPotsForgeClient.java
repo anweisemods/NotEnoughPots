@@ -4,10 +4,13 @@ import net.anweisen.notenoughpots.Constants;
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterNamedRenderTypesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -28,6 +31,18 @@ public class NotEnoughPotsForgeClient {
     event.register(mimicBlockColor(blockColors, Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
+  }
+
+  @SubscribeEvent
+  @SuppressWarnings("deprecation")
+  public static void onRegisterNamedRenderTypes(RegisterNamedRenderTypesEvent event) {
+    for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
+      // does not work as expected:
+      // event.register(block.getName(), RenderType.cutout(), Sheets.cutoutBlockSheet());
+
+      // deprecated in minecraft (1.19) but not in forge?
+      ItemBlockRenderTypes.setRenderLayer(block.findBlock(), RenderType.cutout());
+    }
   }
 
   private static BlockColor mimicBlockColor(BlockColors colors, Block template) {

@@ -4,12 +4,16 @@ import net.anweisen.notenoughpots.Constants;
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterNamedRenderTypesEvent;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -28,6 +32,11 @@ public class NotEnoughPotsNeoForgeClient {
     event.register(mimicBlockColor(blockColors, Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
+  }
+
+  @SubscribeEvent
+  public static void onRegisterNamedRenderTypes(RegisterNamedRenderTypesEvent event) {
+    // not required for neo forge
   }
 
   private static BlockColor mimicBlockColor(BlockColors colors, Block template) {
