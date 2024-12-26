@@ -22,9 +22,10 @@ neoForge {
 		client {
 			client()
 		}
-		data {
-			data()
-		}
+		// currently data generation is not used and doesnt work (since 1.21.4)
+//		data {
+//			data()
+//		}
 		server {
 			server()
 		}

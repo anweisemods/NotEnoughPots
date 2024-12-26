@@ -26,10 +26,11 @@ repositories {
 		filter { includeGroupAndSubgroups('org.spongepowered') }
 	}
 	exclusiveContent {
-		forRepositories(maven {
-			name = 'ParchmentMC'
-			url = 'https://maven.parchmentmc.org/'
-		},
+		forRepositories(
+				maven {
+					name = 'ParchmentMC'
+					url = 'https://maven.parchmentmc.org/'
+				},
 				maven {
 					name = "NeoForge"
 					url = 'https://maven.neoforged.net/releases'
@@ -39,6 +40,10 @@ repositories {
 	maven {
 		name = 'BlameJared'
 		url = 'https://maven.blamejared.com'
+	}
+	maven {
+		name = 'GlareMasters' // for com.mojang:jtracy
+		url = "https://repo.glaremasters.me/repository/public/"
 	}
 }
 
