@@ -4,12 +4,10 @@ import net.anweisen.notenoughpots.Constants;
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -19,7 +17,11 @@ import net.neoforged.neoforge.client.event.RegisterNamedRenderTypesEvent;
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-@EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(
+  value = Dist.CLIENT,
+  modid = Constants.MOD_ID,
+  bus = EventBusSubscriber.Bus.MOD
+)
 public class NotEnoughPotsNeoForgeClient {
 
   @SubscribeEvent

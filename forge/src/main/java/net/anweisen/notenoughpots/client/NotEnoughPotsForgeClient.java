@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterNamedRenderTypesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +19,11 @@ import net.minecraftforge.fml.common.Mod;
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(
+  value = Dist.CLIENT,
+  modid = Constants.MOD_ID,
+  bus = Mod.EventBusSubscriber.Bus.MOD
+)
 public class NotEnoughPotsForgeClient {
 
   @SubscribeEvent
