@@ -1,0 +1,8 @@
+{
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/potted_chorus_flower",
+  "textures": {
+    "flower": "minecraft:block/chorus_flower_dead"
+  }
+}
