@@ -41,6 +41,8 @@ public enum NotEnoughPotsBlockType {
   // 1.17+
   POTTED_CAVE_VINES(Blocks.CAVE_VINES), // (Glow Berries)
   POTTED_HANGING_ROOTS(Blocks.HANGING_ROOTS),
+  // 1.20+
+  POTTED_PITCHER_PLANT(Blocks.PITCHER_PLANT),
   ;
 
   private final String name;
