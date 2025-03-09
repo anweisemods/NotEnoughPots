@@ -43,6 +43,7 @@ public enum NotEnoughPotsBlockType {
   POTTED_HANGING_ROOTS(Blocks.HANGING_ROOTS),
   // 1.20+
   POTTED_PITCHER_PLANT(Blocks.PITCHER_PLANT),
+  POTTED_PITCHER_CROP(Blocks.PITCHER_CROP),
   ;
 
   private final String name;
