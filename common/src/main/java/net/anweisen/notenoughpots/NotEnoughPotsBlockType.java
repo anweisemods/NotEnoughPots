@@ -44,6 +44,7 @@ public enum NotEnoughPotsBlockType {
   // 1.20+
   POTTED_PITCHER_PLANT(Blocks.PITCHER_PLANT),
   POTTED_PITCHER_CROP(Blocks.PITCHER_CROP),
+  POTTED_TORCHFLOWER_SEEDS(Blocks.TORCHFLOWER_CROP),
   ;
 
   private final String name;
