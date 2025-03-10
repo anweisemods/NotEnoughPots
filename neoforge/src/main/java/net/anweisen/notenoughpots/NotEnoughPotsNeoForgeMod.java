@@ -14,7 +14,7 @@ public class NotEnoughPotsNeoForgeMod {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Registries.BLOCK, Constants.MOD_ID);
 
   public NotEnoughPotsNeoForgeMod(IEventBus eventBus) {
-    var bridge = new NeoForgePlatformBridge<>(eventBus, BLOCKS);
+    var bridge = new NeoForgePlatformBridge<>(eventBus, BLOCKS, NotEnoughPotsBlockType.class);
     CommonClass.init(bridge);
   }
 }
