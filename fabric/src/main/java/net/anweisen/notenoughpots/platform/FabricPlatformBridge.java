@@ -1,7 +1,10 @@
 package net.anweisen.notenoughpots.platform;
 
-import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
+import net.anweisen.notenoughpots.IPottedBlockType;
 import net.anweisen.notenoughpots.platform.api.IPlatformBridge;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import java.util.EnumMap;
 import java.util.Map;
@@ -10,13 +13,23 @@ import java.util.Map;
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-public class FabricPlatformBridge implements IPlatformBridge {
+public class FabricPlatformBridge<T extends Enum<T> & IPottedBlockType> implements IPlatformBridge<T> {
 
-  private final Map<NotEnoughPotsBlockType, Block> pottedBlocks = new EnumMap<>(NotEnoughPotsBlockType.class);
+  private final Map<T, Block> pottedBlocks;
+  private final String modId;
+
+  public FabricPlatformBridge(String modId, Class<T> enumClass) {
+    this.pottedBlocks = new EnumMap<>(enumClass);
+    this.modId = modId;
+  }
 
   @Override
-  public void registerPottedBlock(NotEnoughPotsBlockType type) {
-    pottedBlocks.put(type, NotEnoughPotsBlockType.registerBuiltIn(type.getName(), NotEnoughPotsBlockType.flowerPot(type.getFlowerBlock())));
+  public void registerPottedBlock(T type) {
+    pottedBlocks.put(type, registerBuiltIn(type.getName(), type.createPottedFlowerBlock()));
+  }
+
+  public Block registerBuiltIn(String name, Block block) {
+    return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(modId, name), block);
   }
 
   @Override
@@ -25,7 +38,7 @@ public class FabricPlatformBridge implements IPlatformBridge {
   }
 
   @Override
-  public Block getPottedBlock(NotEnoughPotsBlockType type) {
+  public Block getPottedBlock(T type) {
     return pottedBlocks.get(type);
   }
 

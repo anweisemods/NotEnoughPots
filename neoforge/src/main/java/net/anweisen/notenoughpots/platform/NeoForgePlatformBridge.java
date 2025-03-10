@@ -1,11 +1,11 @@
 package net.anweisen.notenoughpots.platform;
 
-import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
-import net.anweisen.notenoughpots.NotEnoughPotsNeoForgeMod;
+import net.anweisen.notenoughpots.IPottedBlockType;
 import net.anweisen.notenoughpots.platform.api.IPlatformBridge;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -13,27 +13,30 @@ import java.util.Map;
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-public class NeoForgePlatformBridge implements IPlatformBridge {
+public class NeoForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implements IPlatformBridge<T> {
 
-  private final Map<NotEnoughPotsBlockType, DeferredHolder<Block, Block>> pottedBlocks = new EnumMap<>(NotEnoughPotsBlockType.class);
+  private final Map<T, DeferredHolder<Block, Block>> pottedBlocks;
 
   private final IEventBus eventBus;
+  private final DeferredRegister<Block> register;
 
-  public NeoForgePlatformBridge(IEventBus eventBus) {
+  public NeoForgePlatformBridge(IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
     this.eventBus = eventBus;
+    this.register = register;
+    this.pottedBlocks = new EnumMap<>(enumClass);
   }
 
   @Override
-  public void registerPottedBlock(NotEnoughPotsBlockType type) {
-    pottedBlocks.put(type, NotEnoughPotsNeoForgeMod.BLOCKS.register(type.getName(), () -> NotEnoughPotsBlockType.flowerPot(type.getFlowerBlock())));
+  public void registerPottedBlock(T type) {
+    pottedBlocks.put(type, register.register(type.getName(), type::createPottedFlowerBlock));
   }
 
   public void finishRegistration() {
-    NotEnoughPotsNeoForgeMod.BLOCKS.register(eventBus);
+    register.register(eventBus);
   }
 
   @Override
-  public Block getPottedBlock(NotEnoughPotsBlockType type) {
+  public Block getPottedBlock(T type) {
     return pottedBlocks.get(type).get();
   }
 

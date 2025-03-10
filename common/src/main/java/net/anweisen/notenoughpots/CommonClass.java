@@ -8,9 +8,9 @@ import net.anweisen.notenoughpots.platform.api.IPlatformBridge;
  */
 public class CommonClass {
 
-  private static IPlatformBridge bridge;
+  private static IPlatformBridge<NotEnoughPotsBlockType> bridge;
 
-  public static void init(IPlatformBridge bridge) {
+  public static void init(IPlatformBridge<NotEnoughPotsBlockType> bridge) {
     CommonClass.bridge = bridge;
 
     for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
@@ -20,7 +20,7 @@ public class CommonClass {
     bridge.finishRegistration();
   }
 
-  public static IPlatformBridge getBridge() {
+  public static IPlatformBridge<NotEnoughPotsBlockType> getBridge() {
     return bridge;
   }
 }

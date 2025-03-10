@@ -1,17 +1,13 @@
 package net.anweisen.notenoughpots;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FlowerPotBlock;
 
 /**
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-public enum NotEnoughPotsBlockType {
+public enum NotEnoughPotsBlockType implements IPottedBlockType {
 
   POTTED_SUGAR_CANE(Blocks.SUGAR_CANE),
   POTTED_SUNFLOWER(Blocks.SUNFLOWER),
@@ -57,29 +53,18 @@ public enum NotEnoughPotsBlockType {
     this.name = this.name().toLowerCase();
   }
 
-  public static Block flowerPot(Block flower) {
-    // BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT) does no longer work in 1.21.2+
-    return new FlowerPotBlock(flower, Blocks.FLOWER_POT.properties());
-  }
-
-  public static Block registerBuiltIn(String name, Block block) {
-    return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name), block);
-  }
-
+  @Override
   public Block getFlowerBlock() {
     return this.flower;
   }
 
+  @Override
   public String getName() {
     return this.name;
   }
 
   public Block findBlock() {
     return CommonClass.getBridge().getPottedBlock(this);
-  }
-
-  public ResourceLocation toResourceLocation() {
-    return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, this.name);
   }
 
 }

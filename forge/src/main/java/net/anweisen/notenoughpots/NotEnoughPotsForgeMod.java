@@ -14,7 +14,7 @@ public class NotEnoughPotsForgeMod {
 
   public NotEnoughPotsForgeMod(FMLJavaModLoadingContext context) {
     var eventBus = context.getModEventBus();
-    var bridge = new ForgePlatformBridge(eventBus);
+    var bridge = new ForgePlatformBridge<>(eventBus, BLOCKS, NotEnoughPotsBlockType.class);
     CommonClass.init(bridge);
   }
 }
