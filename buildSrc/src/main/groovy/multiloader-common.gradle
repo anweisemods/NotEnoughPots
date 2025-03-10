@@ -37,13 +37,14 @@ repositories {
 				})
 		filter { includeGroup('org.parchmentmc.data') }
 	}
-	maven {
-		name = 'BlameJared'
-		url = 'https://maven.blamejared.com'
-	}
-	maven {
-		name = 'GlareMasters' // for com.mojang:jtracy
-		url = "https://repo.glaremasters.me/repository/public/"
+	exclusiveContent {
+		forRepositories(
+			maven {
+				name = 'GlareMasters' // for com.mojang:jtracy
+				url = "https://repo.glaremasters.me/repository/public/"
+			}
+		)
+		filter { includeGroup('com.mojang') }
 	}
 }
 
