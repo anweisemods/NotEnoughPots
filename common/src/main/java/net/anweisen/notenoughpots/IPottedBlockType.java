@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.FlowerPotBlock;
  * @author anweisen | https://github.com/anweisen
  * @since 1.3
  *
- * @see net.anweisen.notenoughpots.platform.api.IPlatformBridge
- * @see net.anweisen.notenoughpots.platform.api.IPlatformBridge#registerPottedBlock(IPottedBlockType)
+ * @see net.anweisen.notenoughpots.platform.IPlatformBridge
+ * @see net.anweisen.notenoughpots.platform.IPlatformBridge#registerPottedBlock(IPottedBlockType)
  */
 public interface IPottedBlockType {
 

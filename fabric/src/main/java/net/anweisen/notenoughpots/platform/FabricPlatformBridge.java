@@ -1,7 +1,6 @@
 package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
-import net.anweisen.notenoughpots.platform.api.IPlatformBridge;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

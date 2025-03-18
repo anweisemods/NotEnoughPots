@@ -64,7 +64,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   }
 
   public Block findBlock() {
-    return CommonClass.getBridge().getPottedBlock(this);
+    return NotEnoughPotsCommons.getBridge().getPottedBlock(this);
   }
 
 }

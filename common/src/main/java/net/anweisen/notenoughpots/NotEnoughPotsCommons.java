@@ -1,17 +1,20 @@
 package net.anweisen.notenoughpots;
 
-import net.anweisen.notenoughpots.platform.api.IPlatformBridge;
+import net.anweisen.notenoughpots.platform.IPlatformBridge;
 
 /**
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-public class CommonClass {
+public class NotEnoughPotsCommons {
+
+  public static final String MOD_ID = "notenoughpots";
+  public static final String MOD_NAME = "NotEnoughPots";
 
   private static IPlatformBridge<NotEnoughPotsBlockType> bridge;
 
   public static void init(IPlatformBridge<NotEnoughPotsBlockType> bridge) {
-    CommonClass.bridge = bridge;
+    NotEnoughPotsCommons.bridge = bridge;
 
     for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
       bridge.registerPottedBlock(block);

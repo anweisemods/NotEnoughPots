@@ -1,7 +1,7 @@
 package net.anweisen.notenoughpots.client;
 
-import net.anweisen.notenoughpots.Constants;
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
+import net.anweisen.notenoughpots.NotEnoughPotsCommons;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +19,7 @@ import net.neoforged.neoforge.client.event.RegisterNamedRenderTypesEvent;
  */
 @EventBusSubscriber(
   value = Dist.CLIENT,
-  modid = Constants.MOD_ID,
+  modid = NotEnoughPotsCommons.MOD_ID,
   bus = EventBusSubscriber.Bus.MOD
 )
 public class NotEnoughPotsNeoForgeClient {

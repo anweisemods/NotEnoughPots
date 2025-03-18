@@ -1,4 +1,4 @@
-package net.anweisen.notenoughpots.platform.api;
+package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
 import net.minecraft.world.level.block.Block;
