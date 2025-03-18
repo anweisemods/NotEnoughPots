@@ -28,6 +28,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_CHORUS_FLOWER(Blocks.CHORUS_FLOWER),
   POTTED_CHORUS_PLANT(Blocks.CHORUS_PLANT),
   POTTED_NETHER_WART(Blocks.NETHER_WART),
+  POTTED_COCOA(Blocks.COCOA),
   // 1.13+
   POTTED_SEA_PICKLE(Blocks.SEA_PICKLE),
   // 1.14+
