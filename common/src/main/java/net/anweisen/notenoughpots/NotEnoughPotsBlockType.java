@@ -2,6 +2,7 @@ package net.anweisen.notenoughpots;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import java.util.Locale;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -53,7 +54,8 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
 
   NotEnoughPotsBlockType(Block flower) {
     this.flower = flower;
-    this.name = this.name().toLowerCase();
+    // using Locale.ROOT fixes https://github.com/anweisemods/NotEnoughPots/issues/4
+    this.name = this.name().toLowerCase(Locale.ROOT);
   }
 
   @Override
