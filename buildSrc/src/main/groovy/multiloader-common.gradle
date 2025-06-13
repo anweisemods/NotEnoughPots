@@ -112,15 +112,23 @@ processResources {
 }
 
 publishing {
-	publications {
-		register('mavenJava', MavenPublication) {
-			artifactId base.archivesName.get()
-			from components.java
+	repositories {
+		mavenLocal()
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/anweisemods/NotEnoughPots")
+			credentials {
+				username = System.getenv("GITHUB_ACTOR")
+				password = System.getenv("GITHUB_TOKEN")
+			}
 		}
 	}
-	repositories {
-		maven {
-			url System.getenv('local_maven_url')
+	publications {
+		mavenJava(MavenPublication) {
+			groupId "$group.$mod_id"
+			artifactId project.name
+			version "$version-$minecraft_version"
+			from components.java
 		}
 	}
 }

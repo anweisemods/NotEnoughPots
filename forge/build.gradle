@@ -71,14 +71,6 @@ dependencies {
 	implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			fg.component(it)
-		}
-	}
-}
-
 sourceSets.each {
 	def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
 	it.output.resourcesDir = dir
