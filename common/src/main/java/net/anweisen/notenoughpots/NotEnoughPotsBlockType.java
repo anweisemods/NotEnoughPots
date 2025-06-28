@@ -48,6 +48,8 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_PITCHER_PLANT(Blocks.PITCHER_PLANT),
   POTTED_PITCHER_CROP(Blocks.PITCHER_CROP),
   POTTED_TORCHFLOWER_SEEDS(Blocks.TORCHFLOWER_CROP),
+  // 1.20.3+
+  POTTED_PALE_HANGING_MOSS(Blocks.PALE_HANGING_MOSS),
   ;
 
   private final String name;
