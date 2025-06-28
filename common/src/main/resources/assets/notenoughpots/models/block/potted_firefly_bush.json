@@ -1,0 +1,9 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_cross_emissive_scaled_75",
+  "textures": {
+    "plant": "minecraft:block/firefly_bush",
+    "cross_emissive": "minecraft:block/firefly_bush_emissive"
+  }
+}
