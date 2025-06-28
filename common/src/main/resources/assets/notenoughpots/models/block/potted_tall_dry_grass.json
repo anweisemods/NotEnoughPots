@@ -1,0 +1,8 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_grass",
+  "textures": {
+    "plant": "minecraft:block/tall_dry_grass"
+  }
+}
