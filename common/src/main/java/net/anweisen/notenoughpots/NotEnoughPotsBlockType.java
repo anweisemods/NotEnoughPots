@@ -37,6 +37,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   // 1.16+
   POTTED_TWISTING_VINES(Blocks.TWISTING_VINES),
   POTTED_WEEPING_VINES(Blocks.WEEPING_VINES),
+  POTTED_NETHER_SPROUTS(Blocks.NETHER_SPROUTS),
   // 1.17+
   POTTED_CAVE_VINES(Blocks.CAVE_VINES), // (Glow Berries)
   POTTED_HANGING_ROOTS(Blocks.HANGING_ROOTS),
