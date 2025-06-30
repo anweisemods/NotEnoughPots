@@ -22,4 +22,4 @@ _Well, now you can!_
 
 <br/>
 
-![](https://cdn.modrinth.com/data/cached_images/a34bc7547ee413ba7f789d107dd397a4b25abe7c.png)
+![](https://media.forgecdn.net/attachments/description/1120989/description_6503752d-2648-47d2-a40b-e689885a9980.png)
