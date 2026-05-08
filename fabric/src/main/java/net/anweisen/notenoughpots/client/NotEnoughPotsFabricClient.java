@@ -1,6 +1,7 @@
 package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
+import net.anweisen.notenoughpots.NotEnoughPotsCommons;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
@@ -33,6 +34,19 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
 
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
+
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_KELP.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_SEAGRASS.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_TUBE_CORAL.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BRAIN_CORAL.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BUBBLE_CORAL.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_FIRE_CORAL.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_TUBE_CORAL_FAN.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BRAIN_CORAL_FAN.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BUBBLE_CORAL_FAN.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_FIRE_CORAL_FAN.findBlock());
+    ColorProviderRegistry.BLOCK.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL_FAN.findBlock());
   }
 
   private static BlockColor mimicBlockColor(Block block) {
@@ -41,6 +55,10 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
 
   private static BlockColor agedStemBlockColor(Block block, int stage) {
     return (blockState, blockAndTintGetter, blockPos, i) -> ColorProviderRegistry.BLOCK.get(block).getColor(block.defaultBlockState().setValue(StemBlock.AGE, stage), blockAndTintGetter, blockPos, i);
+  }
+
+  private static BlockColor warmWaterBlockColor() {
+    return (blockState, blockAndTintGetter, blockPos, i) -> NotEnoughPotsCommons.WARM_WATER_COLOR;
   }
 
 }
