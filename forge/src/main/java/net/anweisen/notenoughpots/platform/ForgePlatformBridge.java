@@ -20,11 +20,11 @@ public class ForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implement
   private final IEventBus eventBus;
   private final DeferredRegister<Block> register;
 
-  public ForgePlatformBridge(IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass, String modId) {
+  public ForgePlatformBridge(String modId, IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
+    this.modId = modId;
     this.eventBus = eventBus;
     this.register = register;
     this.pottedBlocks = new EnumMap<>(enumClass);
-    this.modId = modId;
   }
 
   @Override
