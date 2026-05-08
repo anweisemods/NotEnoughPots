@@ -2,6 +2,7 @@ plugins {
 	id 'multiloader-loader'
 	id 'fabric-loom'
 }
+
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings loom.layered {
@@ -27,6 +28,19 @@ loom {
 			ideConfigGenerated(true)
 			runDir('runs/client')
 		}
+        datagen {
+            server() // Explicitly call the server environment method
+
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=notenoughpots"
+
+            runDir "build/datagen"
+
+            // This ensures IntelliJ creates the run config file correctly
+            ideConfigGenerated = true
+        }
 		server {
 			server()
 			setConfigName('Fabric Server')

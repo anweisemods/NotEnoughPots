@@ -20,6 +20,9 @@
     ],
     "client": [
       "net.anweisen.notenoughpots.client.NotEnoughPotsFabricClient"
+    ],
+    "fabric-datagen": [
+      "net.anweisen.notenoughpots.datagen.NotEnoughPotsFabricDataGenerator"
     ]
   },
   "mixins": [
@@ -31,8 +34,5 @@
     "fabric-api": "*",
     "minecraft": "${minecraft_version_range_fabric}",
     "java": ">=${java_version}"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
