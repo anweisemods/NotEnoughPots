@@ -16,10 +16,12 @@ public class NeoForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implem
 
   private final Map<T, DeferredHolder<Block, Block>> pottedBlocks;
 
+  private final String modId;
   private final IEventBus eventBus;
   private final DeferredRegister<Block> register;
 
-  public NeoForgePlatformBridge(IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
+  public NeoForgePlatformBridge(String modId, IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
+    this.modId = modId;
     this.eventBus = eventBus;
     this.register = register;
     this.pottedBlocks = new EnumMap<>(enumClass);
@@ -27,7 +29,7 @@ public class NeoForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implem
 
   @Override
   public void registerPottedBlock(T type) {
-    pottedBlocks.put(type, register.register(type.getName(), type::createPottedFlowerBlock));
+    pottedBlocks.put(type, register.register(type.getName(), () -> type.createPottedFlowerBlock(modId)));
   }
 
   public void finishRegistration() {
