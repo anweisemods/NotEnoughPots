@@ -21,11 +21,16 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
       BlockRenderLayerMap.INSTANCE.putBlock(block.findBlock(), RenderType.cutout());
     }
+
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SHORT_GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.TALL_GRASS), NotEnoughPotsBlockType.POTTED_TALL_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
+    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.VINE), NotEnoughPotsBlockType.POTTED_VINE.findBlock());
+    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
+    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
   }

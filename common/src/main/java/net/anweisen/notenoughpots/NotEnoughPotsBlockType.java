@@ -30,6 +30,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_CHORUS_PLANT(Blocks.CHORUS_PLANT),
   POTTED_NETHER_WART(Blocks.NETHER_WART),
   POTTED_COCOA(Blocks.COCOA),
+  POTTED_VINE(Blocks.VINE),
   // 1.13+
   POTTED_SEA_PICKLE(Blocks.SEA_PICKLE),
   // 1.14+
@@ -45,6 +46,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_SMALL_DRIPLEAF(Blocks.SMALL_DRIPLEAF),
   POTTED_BIG_DRIPLEAF(Blocks.BIG_DRIPLEAF),
   // 1.20+
+  POTTED_PINK_PETALS(Blocks.PINK_PETALS),
   POTTED_PITCHER_PLANT(Blocks.PITCHER_PLANT),
   POTTED_PITCHER_CROP(Blocks.PITCHER_CROP),
   POTTED_TORCHFLOWER_SEEDS(Blocks.TORCHFLOWER_CROP),
@@ -56,6 +58,7 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_FIREFLY_BUSH(Blocks.FIREFLY_BUSH),
   POTTED_SHORT_DRY_GRASS(Blocks.SHORT_DRY_GRASS),
   POTTED_TALL_DRY_GRASS(Blocks.TALL_DRY_GRASS),
+  POTTED_WILDFLOWERS(Blocks.WILDFLOWERS),
   ;
 
   private final String name;
