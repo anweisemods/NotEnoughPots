@@ -23,7 +23,7 @@ public interface IPottedBlockType {
    * Returns the internal name (id) of the potted block,
    * under which it will be registered.
    * It should be unique and not contain any special characters and
-   * be written in snake case (lower-case letters seperated by underscores).
+   * be written in snake case (lower-case letters separated by underscores).
    *
    * @return The internal name (id) of the potted block
    */
@@ -49,7 +49,8 @@ public interface IPottedBlockType {
 
   /**
    * Creates the block properties for the potted block.
-   * Copied from vanilla FLOWER_POT properties, applies custom id and loot table.
+   * Copied from vanilla FLOWER_POT properties.
+   * Applies custom id, loot table and flower block light level.
    *
    * @param modId The mod id to use for the resource location
    * @return The block properties for the potted block
@@ -59,6 +60,7 @@ public interface IPottedBlockType {
     // Copied from vanilla FLOWER_POT properties
     return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)
       .setId(ResourceKey.create(Registries.BLOCK, createResourceLocation(modId)))
+      .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission())
       .overrideLootTable(Optional.of(ResourceKey.create(Registries.LOOT_TABLE, createResourceLocation(modId))));
   }
 
