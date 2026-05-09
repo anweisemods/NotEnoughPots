@@ -18,8 +18,14 @@ Allows you to place any plant into vanilla flower pots</p> 
 _Ever wondered why you can't place some plants in flower pots?_  
 _Well, now you can!_
 
-*  Adds **32** Flower Pot Variants of their Plants
+*  Adds **64** Flower Pot Variants of their Plants
 
 <br/>
 
-![](https://media.forgecdn.net/attachments/description/1120989/description_6503752d-2648-47d2-a40b-e689885a9980.png)
+
+<div align="center">
+
+![](https://media.forgecdn.net/attachments/description/1120989/description_03aa99c6-cf79-4396-8d4c-4dc19411433d.png)
+![](https://media.forgecdn.net/attachments/description/1120989/description_e3c74527-0e39-4b21-8f3e-7d516784e7a2.png)
+
+</div>
