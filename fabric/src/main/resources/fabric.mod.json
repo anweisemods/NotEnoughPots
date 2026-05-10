@@ -22,17 +22,10 @@
       "net.anweisen.notenoughpots.client.NotEnoughPotsFabricClient"
     ]
   },
-  "mixins": [
-    "${mod_id}.mixins.json",
-    "${mod_id}.fabric.mixins.json"
-  ],
   "depends": {
-    "fabricloader": ">=${fabric_loader_version}",
+    "fabricloader": "${fabric_loader_version_range}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version_range_fabric}",
     "java": ">=${java_version}"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_fan_water",
+  "textures": {
+    "fan": "minecraft:block/brain_coral_fan"
+  }
+}

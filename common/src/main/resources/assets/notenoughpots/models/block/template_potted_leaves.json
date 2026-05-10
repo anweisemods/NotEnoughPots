@@ -1,0 +1,72 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "block/flower_pot",
+    "flowerpot": "block/flower_pot",
+    "dirt": "block/dirt"
+  },
+  "elements": [
+    {
+      "from": [ 5, 0, 5 ],
+      "to": [ 11, 6, 11 ],
+      "faces": {
+        "down":  { "uv": [ 5, 5, 6, 11 ], "texture": "#flowerpot", "cullface": "down" },
+        "up":    { "texture": "#flowerpot" },
+        "north": { "texture": "#flowerpot" },
+        "south": { "texture": "#flowerpot" },
+        "west":  { "texture": "#flowerpot" },
+        "east":  { "texture": "#flowerpot" }
+      }
+    },
+    {
+      "from": [ 6, 0, 6 ],
+      "to": [ 10, 4, 10 ],
+      "faces": {
+        "down": { "uv": [ 6, 12, 10, 16 ], "texture": "#flowerpot", "cullface": "down" },
+        "up":   { "uv": [ 6, 6, 10, 10 ], "texture": "#dirt" }
+      }
+    },
+
+    {
+      "from": [ 6, 5, 6 ],
+      "to": [ 10, 16, 6 ],
+      "faces": {
+        "north": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 },
+        "south": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 6, 5, 10 ],
+      "to": [ 10, 16, 10 ],
+      "faces": {
+        "south": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 },
+        "north": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 6, 5, 6 ],
+      "to": [ 6, 16, 10 ],
+      "faces": {
+        "west": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 },
+        "east": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 10, 5, 6 ],
+      "to": [ 10, 16, 10 ],
+      "faces": {
+        "east": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 },
+        "west": { "uv": [ 0, 0, 4, 11 ], "texture": "#side", "tintindex": 0 }
+      }
+    },
+    {
+      "from": [ 6, 16, 6 ],
+      "to": [ 10, 16, 10 ],
+      "faces": {
+        "up":   { "uv": [ 0, 0, 4, 4 ], "texture": "#side", "tintindex": 0 },
+        "down": { "uv": [ 0, 0, 4, 4 ], "texture": "#side", "tintindex": 0 }
+      }
+    }
+  ]
+}

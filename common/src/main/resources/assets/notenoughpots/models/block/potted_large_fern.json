@@ -1,5 +1,5 @@
 {
-  "render_type": "cutout",
+  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_parts_tinted",
   "textures": {

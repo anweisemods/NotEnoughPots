@@ -12,9 +12,10 @@ public class NotEnoughPotsForgeMod {
 
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NotEnoughPotsCommons.MOD_ID);
 
-  public NotEnoughPotsForgeMod(FMLJavaModLoadingContext context) {
+  public NotEnoughPotsForgeMod() {
+    var context = FMLJavaModLoadingContext.get();
     var eventBus = context.getModEventBus();
-    var bridge = new ForgePlatformBridge<>(eventBus, BLOCKS, NotEnoughPotsBlockType.class);
+    var bridge = new ForgePlatformBridge<>(NotEnoughPotsCommons.MOD_ID, eventBus, BLOCKS, NotEnoughPotsBlockType.class);
     NotEnoughPotsCommons.init(bridge);
   }
 }
