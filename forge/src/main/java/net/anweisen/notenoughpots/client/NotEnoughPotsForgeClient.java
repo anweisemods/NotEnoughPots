@@ -34,7 +34,7 @@ public class NotEnoughPotsForgeClient {
     BlockColors blockColors = event.getBlockColors();
 
     event.register(mimicBlockColor(blockColors, Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
-    event.register(mimicBlockColor(blockColors, Blocks.SHORT_GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
+    event.register(mimicBlockColor(blockColors, Blocks.GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
     event.register(mimicBlockColor(blockColors, Blocks.TALL_GRASS), NotEnoughPotsBlockType.POTTED_TALL_GRASS.findBlock());
     event.register(mimicBlockColor(blockColors, Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     event.register(mimicBlockColor(blockColors, Blocks.VINE), NotEnoughPotsBlockType.POTTED_VINE.findBlock());
@@ -48,11 +48,11 @@ public class NotEnoughPotsForgeClient {
     // 1.19+
     event.register(mimicBlockColor(blockColors, Blocks.MANGROVE_LEAVES), NotEnoughPotsBlockType.POTTED_MANGROVE_LEAVES.findBlock());
     // 1.20+
-    event.register(mimicBlockColor(blockColors, Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
+//    event.register(mimicBlockColor(blockColors, Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
     // 1.20.3+ (PALE_OAK_LEAVES are not tinted!)
     // 1.21.5+
-    event.register(mimicBlockColor(blockColors, Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
-    event.register(mimicBlockColor(blockColors, Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+//    event.register(mimicBlockColor(blockColors, Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
+//    event.register(mimicBlockColor(blockColors, Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
 
     event.register(agedStemBlockColor(blockColors, Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
@@ -72,24 +72,24 @@ public class NotEnoughPotsForgeClient {
     event.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL_FAN.findBlock());
   }
 
-  @SubscribeEvent
-  public static void onModelEvent(ModelEvent.ModifyBakingResult event) {
-    Collection<BlockState> blockStates = new ArrayList<>();
-    for (BlockState state : event.getResults().blockStateModels().keySet()) {
-      if (state.getBlockHolder().getRegisteredName().startsWith(NotEnoughPotsCommons.MOD_ID + ResourceLocation.NAMESPACE_SEPARATOR)) {
-        blockStates.add(state);
-      }
-    }
+//  @SubscribeEvent
+//  public static void onModelEvent(ModelEvent.ModifyBakingResult event) {
+//    Collection<BlockState> blockStates = new ArrayList<>();
+//    for (BlockState state : event.getResults().blockStateModels().keySet()) {
+//      if (state.getBlockHolder().getRegisteredName().startsWith(NotEnoughPotsCommons.MOD_ID + ResourceLocation.NAMESPACE_SEPARATOR)) {
+//        blockStates.add(state);
+//      }
+//    }
 
     // forge weirdly ignores the "render_type" (cutout) in the model json files -> replace it with an override
     // (recommended as a replacement for ItemBlockRenderTypes.setRenderLayer in the javadoc)
-    for (BlockState state : blockStates) {
-      event.getResults().blockStateModels().computeIfPresent(state, (loc, originalModel) -> new CutoutDelegateModel(originalModel));
-    }
-  }
+//    for (BlockState state : blockStates) {
+//      event.getResults().blockStateModels().computeIfPresent(state, (loc, originalModel) -> new CutoutDelegateModel(originalModel));
+//    }
+//  }
 
   @SubscribeEvent
-  @SuppressWarnings("deprecation")
+  // @SuppressWarnings("deprecation")
   public static void onRegisterNamedRenderTypes(RegisterNamedRenderTypesEvent event) {
     for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
       // does not work as expected:

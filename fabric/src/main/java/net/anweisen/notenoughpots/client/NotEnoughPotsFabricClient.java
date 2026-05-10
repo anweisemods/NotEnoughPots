@@ -24,7 +24,7 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     }
 
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
-    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SHORT_GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
+    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.TALL_GRASS), NotEnoughPotsBlockType.POTTED_TALL_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.VINE), NotEnoughPotsBlockType.POTTED_VINE.findBlock());
@@ -38,11 +38,11 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     // 1.19+
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.MANGROVE_LEAVES), NotEnoughPotsBlockType.POTTED_MANGROVE_LEAVES.findBlock());
     // 1.20+
-    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
+//    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
     // 1.20.3+ (PALE_OAK_LEAVES are not tinted!)
     // 1.21.5+
-    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
-    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+//    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
+//    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
 
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     ColorProviderRegistry.BLOCK.register(agedStemBlockColor(Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());

@@ -6,10 +6,10 @@ jobs:
     strategy:
       matrix:
         java: [
-          21  # Minimum supported by Minecraft
+          17  # Minimum supported by Minecraft
         ]
         os: [ubuntu-latest]
-        mod_loader: [fabric, forge, neoforge]  # Add loaders to matrix
+        mod_loader: [fabric, forge]  # Add loaders to matrix
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -35,7 +35,7 @@ jobs:
         run: ./gradlew :${{ matrix.mod_loader }}:build
 
       - name: Capture Build Artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '21' }}  # Only on Linux and latest Java
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}  # Only on Linux and latest Java
         uses: actions/upload-artifact@v4
         with:
           name: artifacts-${{ matrix.mod_loader }}

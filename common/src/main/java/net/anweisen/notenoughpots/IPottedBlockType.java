@@ -1,14 +1,10 @@
 package net.anweisen.notenoughpots;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.PushReaction;
-
-import java.util.Optional;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -42,7 +38,6 @@ public interface IPottedBlockType {
    * @see #getFlowerBlock()
    */
   default Block createPottedFlowerBlock(String modId) {
-    // BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT) does no longer work in 1.21.2+
     // Apply loot table via custom properties (#6)
     return new FlowerPotBlock(this.getFlowerBlock(), createPottedFlowerBlockProperties(modId));
   }
@@ -50,18 +45,18 @@ public interface IPottedBlockType {
   /**
    * Creates the block properties for the potted block.
    * Copied from vanilla FLOWER_POT properties.
-   * Applies custom id, and flower block light level.
+   * Applies flower block light level.
    *
    * @param modId The mod id to use for the resource location
    * @return The block properties for the potted block
    * @since 1.4.1
    */
   default BlockBehaviour.Properties createPottedFlowerBlockProperties(String modId) {
-    // Copied from vanilla FLOWER_POT properties
-    // (#6): no need to set loot_table manually [since 1.21: in "loot_table/blocks"]
-    return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)
-      .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission())
-      .setId(ResourceKey.create(Registries.BLOCK, createResourceLocation(modId)));
+    // (#6): no need to set loot_table manually [for pre-1.21: in "loot_tables/blocks"]
+    // 1.19 port: replace "drops" field of properties with custom loot table via reflection (since there is no public method to set it)
+    //      there is no id setter but no need to set it explicitly
+    return BlockBehaviour.Properties.copy(Blocks.FLOWER_POT).instabreak().noOcclusion()
+      .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission());
   }
 
   /**
@@ -74,7 +69,7 @@ public interface IPottedBlockType {
    * @see #getName()
    */
   default ResourceLocation createResourceLocation(String modId) {
-    return ResourceLocation.fromNamespaceAndPath(modId, this.getName());
+    return new ResourceLocation(modId, this.getName());
   }
 
 }

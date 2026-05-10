@@ -20,18 +20,10 @@
     ],
     "client": [
       "net.anweisen.notenoughpots.client.NotEnoughPotsFabricClient"
-    ],
-    "fabric-datagen": [
-      "net.anweisen.notenoughpots.datagen.NotEnoughPotsFabricDataGenerator"
     ]
   },
-  "mixins": [
-    "${mod_id}.mixins.json",
-    "${mod_id}.fabric.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
-    "fabric-api": "*",
     "minecraft": "${minecraft_version_range_fabric}",
     "java": ">=${java_version}"
   }

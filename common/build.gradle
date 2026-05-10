@@ -1,41 +1,54 @@
 plugins {
-	id 'multiloader-common'
-	id 'net.neoforged.moddev'
+    id 'java'
+    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT'
+    id 'maven-publish'
 }
 
-neoForge {
-	neoFormVersion = neo_form_version
-	// Automatically enable AccessTransformers if the file exists
-	def at = file('src/main/resources/META-INF/accesstransformer.cfg')
-	if (at.exists()) {
-		accessTransformers.add(at.absolutePath)
-	}
-	parchment {
-		minecraftVersion = parchment_minecraft
-		mappingsVersion = parchment_version
-	}
+archivesBaseName = "${mod_name}-common-${minecraft_version}"
+
+minecraft {
+    version(minecraft_version)
+    runs {   
+        if (project.hasProperty('common_runs_enabled') ? project.findProperty('common_runs_enabled').toBoolean() : true) {
+        
+            server(project.hasProperty('common_server_run_name') ? project.findProperty('common_server_run_name') : 'vanilla_server') {
+                workingDirectory(this.file("run"))
+            }
+            client(project.hasProperty('common_client_run_name') ? project.findProperty('common_client_run_name') : 'vanilla_client') {
+                workingDirectory(this.file("run"))
+            }
+        }
+    }
 }
 
 dependencies {
-	compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
-	// fabric and neoforge both bundle mixinextras, so it is safe to use it in common
-	compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
-	annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 }
 
-configurations {
-	commonJava {
-		canBeResolved = false
-		canBeConsumed = true
-	}
-	commonResources {
-		canBeResolved = false
-		canBeConsumed = true
-	}
+processResources {
+
+    def buildProps = project.properties.clone()
+
+    filesMatching(['pack.mcmeta']) {
+
+        expand buildProps
+    }
 }
 
-artifacts {
-	commonJava sourceSets.main.java.sourceDirectories.singleFile
-	commonResources sourceSets.main.resources.sourceDirectories.singleFile
-}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+        }
+    }
 
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
+        }
+    }
+}

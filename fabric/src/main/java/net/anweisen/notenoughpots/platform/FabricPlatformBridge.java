@@ -2,7 +2,6 @@ package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import java.util.EnumMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class FabricPlatformBridge<T extends Enum<T> & IPottedBlockType> implemen
   }
 
   public Block registerBuiltIn(T type) {
-    return Registry.register(BuiltInRegistries.BLOCK, type.createResourceLocation(modId), type.createPottedFlowerBlock(modId));
+    return Registry.register(Registry.BLOCK, type.createResourceLocation(modId), type.createPottedFlowerBlock(modId));
   }
 
   @Override

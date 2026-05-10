@@ -1,51 +1,85 @@
 plugins {
-	id 'multiloader-loader'
-	id 'fabric-loom'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'maven-publish'
+    id 'idea'
+}
+
+version = version
+group = group
+
+base {
+    archivesName = "${mod_id}-fabric-${minecraft_version}"
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${minecraft_version}"
-	mappings loom.layered {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
-	}
-	modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    implementation project(":common")
 }
 
 loom {
-	def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
-	if (aw.exists()) {
-		accessWidenerPath.set(aw)
-	}
-	mixin {
-		defaultRefmapName.set("${mod_id}.refmap.json")
-	}
-	runs {
-		client {
-			client()
-			setConfigName('Fabric Client')
-			ideConfigGenerated(true)
-			runDir('runs/client')
-		}
-        datagen {
-            server() // Explicitly call the server environment method
-
-            name "Data Generation"
-            vmArg "-Dfabric-api.datagen"
-            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-            vmArg "-Dfabric-api.datagen.modid=notenoughpots"
-
-            runDir "build/datagen"
-
-            // This ensures IntelliJ creates the run config file correctly
-            ideConfigGenerated = true
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
         }
-		server {
-			server()
-			setConfigName('Fabric Server')
-			ideConfigGenerated(true)
-			runDir('runs/server')
-		}
-	}
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+    }
+}
+
+
+processResources {
+    from project(":common").sourceSets.main.resources
+    inputs.property "version", project.version
+
+    var expandProps = ['version'                        : version,
+                       'group'                          : project.group, //Else we target the task's group.
+                       'minecraft_version'              : minecraft_version,
+                       'minecraft_version_range'        : minecraft_version_range,
+                       'minecraft_version_range_fabric' : minecraft_version_range_fabric,
+                       'fabric_version'                 : fabric_version,
+                       'fabric_loader_version'          : fabric_loader_version,
+                       'mod_name'                       : mod_name,
+                       'mod_author'                     : mod_author,
+                       'mod_id'                         : mod_id,
+                       'description'                    : description,
+                       "forge_version"                  : forge_version,
+                       "forge_loader_version_range"     : forge_loader_version_range,
+                       'license'                        : license,
+                       'java_version'                   : java_version]
+
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+        expand expandProps
+    }
+}
+
+tasks.withType(JavaCompile) {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
+        }
+    }
 }

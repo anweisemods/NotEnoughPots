@@ -1,9 +1,0 @@
-{
-  "render_type": "minecraft:cutout",
-  "ambientocclusion": false,
-  "parent": "notenoughpots:block/template_potted_flowerbed",
-  "textures": {
-    "flowerbed": "minecraft:block/pink_petals",
-    "stem": "minecraft:block/pink_petals_stem"
-  }
-}

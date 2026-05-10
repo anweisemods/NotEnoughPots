@@ -1,78 +1,124 @@
 plugins {
-	id 'multiloader-loader'
-	id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
-	id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
-mixin {
-	config("${mod_id}.mixins.json")
-	config("${mod_id}.forge.mixins.json")
+
+version = version
+group = group
+
+base {
+    archivesName = "${mod_id}-forge-${minecraft_version}"
 }
 
 minecraft {
-	mappings channel: 'official', version: minecraft_version
+    mappings channel: 'official', version: minecraft_version
+    
+    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
+        // This location is hardcoded in Forge and can not be changed.
+        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+        project.logger.debug('Forge Access Transformers are enabled for this project.')
+    }
 
-	copyIdeResources = true //Calls processResources when in dev
+    runs {
+        client {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Client'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                    source project(":common").sourceSets.main
+                }
+            }
+        }
 
-	reobf = false // Forge 1.20.6+ uses official mappings at runtime, so we shouldn't reobf from official to SRG
+        server {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Server'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                    source project(":common").sourceSets.main
+                }
+            }
+        }
 
-	// Automatically enable forge AccessTransformers if the file exists
-	// This location is hardcoded in Forge and can not be changed.
-	// https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-	// Forge still uses SRG names during compile time, so we cannot use the common AT's
-	def at = file('src/main/resources/META-INF/accesstransformer.cfg')
-	if (at.exists()) {
-		accessTransformer = at
-	}
-
-	runs {
-		client {
-			workingDirectory file('runs/client')
-			ideaModule "${rootProject.name}.${project.name}.main"
-			taskName 'Client'
-			mods {
-				modClientRun {
-					source sourceSets.main
-				}
-			}
-		}
-
-		server {
-			workingDirectory file('runs/server')
-			ideaModule "${rootProject.name}.${project.name}.main"
-			taskName 'Server'
-			mods {
-				modServerRun {
-					source sourceSets.main
-				}
-			}
-		}
-
-		data {
-			workingDirectory file('runs/data')
-			ideaModule "${rootProject.name}.${project.name}.main"
-			args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-			taskName 'Data'
-			mods {
-				modDataRun {
-					source sourceSets.main
-				}
-			}
-		}
-	}
+        data {
+            workingDirectory project.file('run')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            taskName 'Data'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            mods {
+                modDataRun {
+                    source sourceSets.main
+                    source project(":common").sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
-	minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-	annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
-
-	// Forge's hack fix
-	implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly project(":common")
 }
 
-sourceSets.each {
-	def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
-	it.output.resourcesDir = dir
-	it.java.destinationDirectory = dir
+tasks.withType(JavaCompile) {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+processResources {
+    from project(":common").sourceSets.main.resources
+
+    var expandProps = ['version'                        : version,
+                       'group'                          : project.group, //Else we target the task's group.
+                       'minecraft_version'              : minecraft_version,
+                       'minecraft_version_range'        : minecraft_version_range,
+                       'minecraft_version_range_fabric' : minecraft_version_range_fabric,
+                       'fabric_version'                 : fabric_version,
+                       'fabric_loader_version'          : fabric_loader_version,
+                       'mod_name'                       : mod_name,
+                       'mod_author'                     : mod_author,
+                       'mod_id'                         : mod_id,
+                       'description'                    : project.description,
+                       "forge_version"                  : forge_version,
+                       "forge_version_range"            : forge_version_range,
+                       "forge_loader_version_range"     : forge_loader_version_range,
+                       'license'                        : license,
+                       'java_version'                   : java_version]
+
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+        expand expandProps
+    }
+}
+
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
+        }
+    }
 }
