@@ -93,9 +93,6 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   POTTED_BIG_DRIPLEAF(Blocks.BIG_DRIPLEAF),
   POTTED_AZALEA_LEAVES(Blocks.AZALEA_LEAVES),
   POTTED_FLOWERING_AZALEA_LEAVES(Blocks.FLOWERING_AZALEA_LEAVES),
-  // 1.19+
-  POTTED_SCULK_VEIN(Blocks.SCULK_VEIN),
-  POTTED_MANGROVE_LEAVES(Blocks.MANGROVE_LEAVES),
   ;
 
   private final String name;
