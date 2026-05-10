@@ -1,0 +1,9 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_parts_water",
+  "textures": {
+    "top": "minecraft:block/kelp",
+    "bottom": "minecraft:block/kelp_plant"
+  }
+}

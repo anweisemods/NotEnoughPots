@@ -95,12 +95,7 @@
     {
       "from": [ 8, 11, 5 ],
       "to": [ 8, 18, 11 ],
-      "rotation": {
-        "origin": [ 8, 8, 8 ],
-        "axis": "y",
-        "angle": 45,
-        "rescale": true
-      },
+      "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": true },
       "shade": false,
       "faces": {
         "west": { "uv": [ 0, 0, 16, 16 ], "texture": "#top" },

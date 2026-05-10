@@ -10,6 +10,7 @@ public class NotEnoughPotsCommons {
 
   public static final String MOD_ID = "notenoughpots";
   public static final String MOD_NAME = "NotEnoughPots";
+  public static final int WARM_WATER_COLOR = 0x45ADF2;
 
   private static IPlatformBridge<NotEnoughPotsBlockType> bridge;
 

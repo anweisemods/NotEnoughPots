@@ -1,0 +1,10 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_carved_pumpkin",
+  "textures": {
+    "front": "minecraft:block/jack_o_lantern",
+    "side": "minecraft:block/pumpkin_side",
+    "top": "minecraft:block/pumpkin_top"
+  }
+}
