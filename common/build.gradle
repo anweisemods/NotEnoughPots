@@ -1,54 +1,38 @@
 plugins {
-    id 'java'
-    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT'
-    id 'maven-publish'
+    id('java')
+    id('fabric-loom') version '0.9-SNAPSHOT'
 }
 
 archivesBaseName = "${mod_name}-common-${minecraft_version}"
-
-minecraft {
-    version(minecraft_version)
-    runs {   
-        if (project.hasProperty('common_runs_enabled') ? project.findProperty('common_runs_enabled').toBoolean() : true) {
-        
-            server(project.hasProperty('common_server_run_name') ? project.findProperty('common_server_run_name') : 'vanilla_server') {
-                workingDirectory(this.file("run"))
-            }
-            client(project.hasProperty('common_client_run_name') ? project.findProperty('common_client_run_name') : 'vanilla_client') {
-                workingDirectory(this.file("run"))
-            }
-        }
-    }
-}
-
 dependencies {
-     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+
+    compileOnly "org.spongepowered:mixin:0.8.5"
+
+    // Use Map Notation here to avoid the Windows pathing error
+    annotationProcessor(group: 'org.spongepowered', name: 'mixin', version: '0.8.5', classifier: 'processor')
+
+    annotationProcessor 'org.ow2.asm:asm-tree:9.2'
+    annotationProcessor 'org.ow2.asm:asm-commons:9.2'
+    annotationProcessor 'org.ow2.asm:asm-util:9.2'
 }
 
-processResources {
-
-    def buildProps = project.properties.clone()
-
-    filesMatching(['pack.mcmeta']) {
-
-        expand buildProps
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            from components.java
-        }
-    }
-
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
+loom {
+    runs {
+        if (project.hasProperty('common_runs_enabled') ? project.findProperty('common_runs_enabled').toBoolean() : true) {
+            client {
+                client()
+                setConfigName("Common Client")
+                ideConfigGenerated(true)
+                runDir("run")
+            }
+            server {
+                server()
+                setConfigName("Common Server")
+                ideConfigGenerated(true)
+                runDir("run")
+            }
         }
     }
 }
