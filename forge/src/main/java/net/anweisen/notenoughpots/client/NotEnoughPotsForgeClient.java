@@ -2,32 +2,40 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.color.block.BlockTintSource;
+import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RegisterNamedRenderTypesEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
+// RegisterColorHandlersEvent lives on the default bus group since 26.1, the bus param must not be set
 @Mod.EventBusSubscriber(
   value = Dist.CLIENT,
-  modid = NotEnoughPotsCommons.MOD_ID,
-  bus = Mod.EventBusSubscriber.Bus.MOD
+  modid = NotEnoughPotsCommons.MOD_ID
 )
 public class NotEnoughPotsForgeClient {
+
+  // the amount of tint layers our block models index into ("tintindex" 0 and 1)
+  private static final int TINT_LAYERS = 2;
+
+  // since 1.21.6 blocks no longer belong to a single render layer (cutout);
+  // the chunk section layer is computed per quad from the transparency of its texture (26.1).
+  // the CutoutDelegateModel override and the "render_type" of the model json files are obsolete because of that
 
   @SubscribeEvent
   public static void onRegisterBlockColors(RegisterColorHandlersEvent.Block event) {
@@ -72,45 +80,56 @@ public class NotEnoughPotsForgeClient {
     event.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL_FAN.findBlock());
   }
 
-  @SubscribeEvent
-  public static void onModelEvent(ModelEvent.ModifyBakingResult event) {
-    Collection<BlockState> blockStates = new ArrayList<>();
-    for (BlockState state : event.getResults().blockStateModels().keySet()) {
-      if (state.getBlockHolder().getRegisteredName().startsWith(NotEnoughPotsCommons.MOD_ID + ResourceLocation.NAMESPACE_SEPARATOR)) {
-        blockStates.add(state);
+  private static List<BlockTintSource> mimicBlockColor(BlockColors colors, Block template) {
+    return mimicBlockColor(colors, template.defaultBlockState());
+  }
+
+  private static List<BlockTintSource> agedStemBlockColor(BlockColors colors, Block template, int stage) {
+    return mimicBlockColor(colors, template.defaultBlockState().setValue(StemBlock.AGE, stage));
+  }
+
+  /**
+   * Delegates every tint layer to the tint sources registered for the flower block.
+   * The color must always be resolved using the state of the flower, as our potted block does not
+   * have the block state properties the vanilla tint sources read (eg. {@link StemBlock#AGE}).
+   */
+  private static List<BlockTintSource> mimicBlockColor(BlockColors colors, BlockState template) {
+    List<BlockTintSource> layers = new ArrayList<>(TINT_LAYERS);
+    for (int layer = 0; layer < TINT_LAYERS; layer++) {
+      layers.add(mimicTintSource(colors, template, layer));
+    }
+    return List.copyOf(layers);
+  }
+
+  private static BlockTintSource mimicTintSource(BlockColors colors, BlockState template, int layer) {
+    return new BlockTintSource() {
+
+      private BlockTintSource resolve() {
+        return colors.getTintSource(template, layer);
       }
-    }
 
-    // forge weirdly ignores the "render_type" (cutout) in the model json files -> replace it with an override
-    // (recommended as a replacement for ItemBlockRenderTypes.setRenderLayer in the javadoc)
-    for (BlockState state : blockStates) {
-      event.getResults().blockStateModels().computeIfPresent(state, (loc, originalModel) -> new CutoutDelegateModel(originalModel));
-    }
+      @Override
+      public int color(BlockState state) {
+        BlockTintSource source = resolve();
+        return source == null ? -1 : source.color(template);
+      }
+
+      @Override
+      public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+        BlockTintSource source = resolve();
+        return source == null ? -1 : source.colorInWorld(template, level, pos);
+      }
+
+      @Override
+      public int colorAsTerrainParticle(BlockState state, BlockAndTintGetter level, BlockPos pos) {
+        BlockTintSource source = resolve();
+        return source == null ? -1 : source.colorAsTerrainParticle(template, level, pos);
+      }
+    };
   }
 
-  @SubscribeEvent
-  @SuppressWarnings("deprecation")
-  public static void onRegisterNamedRenderTypes(RegisterNamedRenderTypesEvent event) {
-    for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
-      // does not work as expected:
-      // event.register(block.getName(), RenderType.cutout(), Sheets.cutoutBlockSheet());
-
-      // deprecated in minecraft (1.19) but not in forge?
-      // (!) forge: marked for removal: 1.21.5
-      // ItemBlockRenderTypes.setRenderLayer(block.findBlock(), RenderType.cutout());
-    }
-  }
-
-  private static BlockColor mimicBlockColor(BlockColors colors, Block template) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState(), blockAndTintGetter, blockPos, i);
-  }
-
-  private static BlockColor agedStemBlockColor(BlockColors colors, Block template, int stage) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState().setValue(StemBlock.AGE, stage), blockAndTintGetter, blockPos, i);
-  }
-
-  private static BlockColor warmWaterBlockColor() {
-    return (blockState, blockAndTintGetter, blockPos, i) -> NotEnoughPotsCommons.WARM_WATER_COLOR;
+  private static List<BlockTintSource> warmWaterBlockColor() {
+    return List.of(BlockTintSources.constant(NotEnoughPotsCommons.WARM_WATER_COLOR));
   }
 
 }

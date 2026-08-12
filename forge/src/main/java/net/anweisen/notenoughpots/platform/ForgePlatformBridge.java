@@ -2,7 +2,7 @@ package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.bus.BusGroup;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import java.util.EnumMap;
@@ -17,10 +17,11 @@ public class ForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implement
   private final Map<T, RegistryObject<Block>> pottedBlocks;
 
   private final String modId;
-  private final IEventBus eventBus;
+  // forge replaced the mod event bus with a bus group in 26.1
+  private final BusGroup eventBus;
   private final DeferredRegister<Block> register;
 
-  public ForgePlatformBridge(String modId, IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
+  public ForgePlatformBridge(String modId, BusGroup eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
     this.modId = modId;
     this.eventBus = eventBus;
     this.register = register;

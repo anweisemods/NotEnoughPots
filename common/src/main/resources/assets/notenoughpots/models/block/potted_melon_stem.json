@@ -1,5 +1,4 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "minecraft:block/tinted_flower_pot_cross",
   "textures": {

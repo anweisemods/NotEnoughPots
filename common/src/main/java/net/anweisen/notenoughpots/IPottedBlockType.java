@@ -1,8 +1,8 @@
 package net.anweisen.notenoughpots;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -73,8 +73,9 @@ public interface IPottedBlockType {
    * @since 1.4.1
    * @see #getName()
    */
-  default ResourceLocation createResourceLocation(String modId) {
-    return ResourceLocation.fromNamespaceAndPath(modId, this.getName());
+  // ResourceLocation has been renamed to Identifier in 26.1
+  default Identifier createResourceLocation(String modId) {
+    return Identifier.fromNamespaceAndPath(modId, this.getName());
   }
 
 }

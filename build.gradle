@@ -1,6 +1,7 @@
 plugins {
 	// see https://fabricmc.net/develop/ for new versions
-	id 'fabric-loom' version '1.10-SNAPSHOT' apply false
+	// 26.1+ uses the non-remapping loom plugin, minecraft is no longer obfuscated
+	id 'net.fabricmc.fabric-loom' version '1.17.17' apply false
 	// see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-	id 'net.neoforged.moddev' version '0.1.110' apply false
+	id 'net.neoforged.moddev' version '2.0.143' apply false
 }
