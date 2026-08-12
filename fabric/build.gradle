@@ -15,9 +15,8 @@ loom {
 	if (aw.exists()) {
 		accessWidenerPath.set(aw)
 	}
-	mixin {
-		defaultRefmapName.set("${mod_id}.refmap.json")
-	}
+	// the mixin annotation processor is no longer enabled by default in loom 1.17,
+	// the mod does not declare any mixins so there is no refmap to name
 	runs {
 		client {
 			client()
