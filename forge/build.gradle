@@ -2,15 +2,15 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    // 1.17 port: ForgeGradle 6 requires java 17 and does not support mc 1.17
+    // 5.1 is the line shipped with the 1.17.1 mdk (needs gradle 7, see gradle/wrapper)
+    id 'net.minecraftforge.gradle' version '[5.1,5.2)'
 }
 
 version = version
 group = group
 
-base {
-    archivesName = "${mod_id}-forge-${minecraft_version}"
-}
+archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
@@ -99,7 +99,7 @@ processResources {
                        'license'                        : license,
                        'java_version'                   : java_version]
 
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
         expand expandProps
     }
 }
