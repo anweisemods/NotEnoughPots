@@ -3,7 +3,9 @@ package net.anweisen.notenoughpots.platform;
 import net.anweisen.notenoughpots.IPottedBlockType;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fmllegacy.RegistryObject;
+// 1.16 port: RegistryObject lives in net.minecraftforge.fml here
+// (it moved to fmllegacy in 1.17, then to net.minecraftforge.registries in 1.18+)
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import java.util.EnumMap;
 import java.util.Map;

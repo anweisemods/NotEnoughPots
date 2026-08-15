@@ -7,7 +7,7 @@ public class NotEnoughPotsFabricMod implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    var bridge = new FabricPlatformBridge<>(NotEnoughPotsCommons.MOD_ID, NotEnoughPotsBlockType.class);
+    FabricPlatformBridge<NotEnoughPotsBlockType> bridge = new FabricPlatformBridge<>(NotEnoughPotsCommons.MOD_ID, NotEnoughPotsBlockType.class);
     NotEnoughPotsCommons.init(bridge);
   }
 }
