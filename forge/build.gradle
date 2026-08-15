@@ -72,12 +72,44 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly project(":common")
+    // 1.16 port: no `compileOnly project(":common")` -- common is compiled against Mojang class
+    // names (Fabric/loom), which do not exist in Forge's 1.16.5 mappings. See remapCommonToMcp.
 }
 
-tasks.withType(JavaCompile) {
-    source(project(":common").sourceSets.main.allSource)
+// 1.16 port: on 1.16.5 Forge's 'official' mapping channel renames *members* to Mojang names but
+// leaves *class* names as MCP (net.minecraft.block.Blocks, AbstractBlock, RenderTypeLookup) -- the
+// flattening to Mojang class names only landed in 1.17. The shared :common sources are written
+// against Mojang class names for Fabric, so translate them here rather than forking a second copy
+// of the 72-entry block enum. Member names are identical on both sides, so this is purely types.
+var mojmapToMcpTypes = new LinkedHashMap<String, String>()
+// order matters: longer/more specific keys first, so "...block.Block" cannot clip "...block.state.X"
+mojmapToMcpTypes.put('net.minecraft.world.level.block.state.BlockBehaviour', 'net.minecraft.block.AbstractBlock')
+mojmapToMcpTypes.put('net.minecraft.world.level.block.FlowerPotBlock', 'net.minecraft.block.FlowerPotBlock')
+mojmapToMcpTypes.put('net.minecraft.world.level.block.StemBlock', 'net.minecraft.block.StemBlock')
+mojmapToMcpTypes.put('net.minecraft.world.level.block.Blocks', 'net.minecraft.block.Blocks')
+mojmapToMcpTypes.put('net.minecraft.world.level.block.Block', 'net.minecraft.block.Block')
+mojmapToMcpTypes.put('net.minecraft.resources.ResourceLocation', 'net.minecraft.util.ResourceLocation')
+mojmapToMcpTypes.put('net.minecraft.core.Registry', 'net.minecraft.util.registry.Registry')
+
+// simple names that still differ after the import line has been rewritten
+var mojmapToMcpSimpleNames = ['BlockBehaviour': 'AbstractBlock']
+
+var remapCommonToMcp = tasks.register('remapCommonToMcp', Copy) {
+    description = "Translates the Mojang-mapped :common sources to the MCP class names Forge uses on ${minecraft_version}"
+    from project(":common").sourceSets.main.java
+    into layout.buildDirectory.dir('generated/sources/mcp')
+    // the rename tables are part of the task's input, otherwise editing them leaves stale output
+    inputs.property('mojmapToMcpTypes', mojmapToMcpTypes)
+    inputs.property('mojmapToMcpSimpleNames', mojmapToMcpSimpleNames)
+    filter { String line ->
+        String result = line
+        mojmapToMcpTypes.each { mojmap, mcp -> result = result.replace(mojmap, mcp) }
+        mojmapToMcpSimpleNames.each { mojmap, mcp -> result = result.replaceAll('\\b' + mojmap + '\\b', mcp) }
+        return result
+    }
 }
+
+sourceSets.main.java.srcDir(remapCommonToMcp)
 
 processResources {
     from project(":common").sourceSets.main.resources

@@ -1,6 +1,8 @@
 plugins {
     id('java')
-    id('fabric-loom') version '0.9-SNAPSHOT'
+    // 1.16 port: loom 0.8+ refuses to apply unless the *Gradle JVM* is Java 16+, which is wrong for a
+    // Java 8 game. 0.7.35 is the last line built for Java 8 and still has officialMojangMappings().
+    id('fabric-loom') version '0.7.35'
 }
 
 archivesBaseName = "${mod_name}-common-${minecraft_version}"

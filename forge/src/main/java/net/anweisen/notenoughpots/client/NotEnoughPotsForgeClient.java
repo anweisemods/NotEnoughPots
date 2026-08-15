@@ -2,13 +2,15 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
+// 1.16 port: Forge's 1.16.5 mappings keep MCP class names -- BlockColor is IBlockColor and
+// ItemBlockRenderTypes is RenderTypeLookup here (see forge/build.gradle: remapCommonToMcp)
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.StemBlock;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.StemBlock;
+import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +32,7 @@ public class NotEnoughPotsForgeClient {
   public static void onClientSetup(FMLClientSetupEvent event) {
     // forge weirdly ignores the "render_type" (cutout) in the model json files -> replace it with an override
     for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
-      ItemBlockRenderTypes.setRenderLayer(block.findBlock(), RenderType.cutout());
+      RenderTypeLookup.setRenderLayer(block.findBlock(), RenderType.cutout());
     }
   }
 
@@ -68,15 +70,15 @@ public class NotEnoughPotsForgeClient {
     blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL_FAN.findBlock());
   }
 
-  private static BlockColor mimicBlockColor(BlockColors colors, Block template) {
+  private static IBlockColor mimicBlockColor(BlockColors colors, Block template) {
     return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState(), blockAndTintGetter, blockPos, i);
   }
 
-  private static BlockColor agedStemBlockColor(BlockColors colors, Block template, int stage) {
+  private static IBlockColor agedStemBlockColor(BlockColors colors, Block template, int stage) {
     return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState().setValue(StemBlock.AGE, stage), blockAndTintGetter, blockPos, i);
   }
 
-  private static BlockColor warmWaterBlockColor() {
+  private static IBlockColor warmWaterBlockColor() {
     return (blockState, blockAndTintGetter, blockPos, i) -> NotEnoughPotsCommons.WARM_WATER_COLOR;
   }
 

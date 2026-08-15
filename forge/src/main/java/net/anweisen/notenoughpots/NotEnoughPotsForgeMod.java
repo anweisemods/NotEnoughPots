@@ -1,7 +1,8 @@
 package net.anweisen.notenoughpots;
 
 import net.anweisen.notenoughpots.platform.ForgePlatformBridge;
-import net.minecraft.world.level.block.Block;
+// 1.16 port: Forge's 1.16.5 mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
+import net.minecraft.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
