@@ -2,7 +2,7 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-// 1.16 port: Forge's 1.16.5 mappings keep MCP class names -- BlockColor is IBlockColor and
+// 1.16 port: Forge's 1.16.x mappings keep MCP class names -- BlockColor is IBlockColor and
 // ItemBlockRenderTypes is RenderTypeLookup here (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

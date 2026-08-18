@@ -2,7 +2,7 @@ subprojects {
     
     apply plugin: 'java'
     
-    // 1.16 port: Mojang ships Java 8 to end users, so the mod must target Java 8 (matches the 1.16.5 MDK)
+    // 1.16 port: Mojang ships Java 8 to end users, so the mod must target Java 8 (matches the 1.16.x MDK)
     java.toolchain.languageVersion = JavaLanguageVersion.of(8)
     java.withSourcesJar()
     java.withJavadocJar()

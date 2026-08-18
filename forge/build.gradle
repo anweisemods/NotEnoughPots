@@ -73,14 +73,16 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     // 1.16 port: no `compileOnly project(":common")` -- common is compiled against Mojang class
-    // names (Fabric/loom), which do not exist in Forge's 1.16.5 mappings. See remapCommonToMcp.
+    // names (Fabric/loom), which do not exist in Forge's 1.16.x mappings. See remapCommonToMcp.
 }
 
-// 1.16 port: on 1.16.5 Forge's 'official' mapping channel renames *members* to Mojang names but
+// 1.16 port: on 1.16.x Forge's 'official' mapping channel renames *members* to Mojang names but
 // leaves *class* names as MCP (net.minecraft.block.Blocks, AbstractBlock, RenderTypeLookup) -- the
 // flattening to Mojang class names only landed in 1.17. The shared :common sources are written
 // against Mojang class names for Fabric, so translate them here rather than forking a second copy
 // of the 72-entry block enum. Member names are identical on both sides, so this is purely types.
+// Verified against both 1.16.5-36.2.34 and 1.16.1-32.0.108: 'official' yields Mojang member names on
+// 1.16.1 too, even though Forge only advertised Mojang mappings from 1.16.5 onwards.
 var mojmapToMcpTypes = new LinkedHashMap<String, String>()
 // order matters: longer/more specific keys first, so "...block.Block" cannot clip "...block.state.X"
 mojmapToMcpTypes.put('net.minecraft.world.level.block.state.BlockBehaviour', 'net.minecraft.block.AbstractBlock')
