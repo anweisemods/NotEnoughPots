@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         java: [
-          8  # Minimum supported by Minecraft (1.16)
+          8  # Minimum supported by Minecraft (1.15)
         ]
         os: [ubuntu-latest]
         mod_loader: [fabric, forge]  # Add loaders to matrix

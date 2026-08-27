@@ -2,8 +2,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    // 1.17 port: ForgeGradle 6 requires java 17 and does not support mc 1.17
-    // 5.1 is the line shipped with the 1.17.1 mdk (needs gradle 7, see gradle/wrapper)
+    // 1.15 port: ForgeGradle 6 requires java 17 and drops the pre-1.17 mapping channels.
+    // 5.1 still consumes forge 31.x userdev and runs on gradle 7 with a java 8 gradle jvm.
     id 'net.minecraftforge.gradle' version '[5.1,5.2)'
 }
 
@@ -72,41 +72,34 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    // 1.16 port: no `compileOnly project(":common")` -- common is compiled against Mojang class
-    // names (Fabric/loom), which do not exist in Forge's 1.16.x mappings. See remapCommonToMcp.
+    // 1.15 port: no `compileOnly project(":common")` -- common is compiled against Mojang class
+    // names (Fabric/loom), which do not exist in Forge's 1.15.x mappings. See remapCommonToMcp.
 }
 
-// 1.16 port: on 1.16.x Forge's 'official' mapping channel renames *members* to Mojang names but
-// leaves *class* names as MCP (net.minecraft.block.Blocks, AbstractBlock, RenderTypeLookup) -- the
+// 1.15 port: Forge's 'official' mapping channel renames *members* to Mojang names but leaves
+// *class* names as MCP (net.minecraft.block.Blocks, net.minecraft.util.ResourceLocation) -- the
 // flattening to Mojang class names only landed in 1.17. The shared :common sources are written
 // against Mojang class names for Fabric, so translate them here rather than forking a second copy
-// of the 72-entry block enum. Member names are identical on both sides, so this is purely types.
-// Verified against both 1.16.5-36.2.34 and 1.16.1-32.0.108: 'official' yields Mojang member names on
-// 1.16.1 too, even though Forge only advertised Mojang mappings from 1.16.5 onwards.
+// of the 68-entry block enum. Member names are identical on both sides, so this is purely types.
+// Cleanup vs the 1.16 port: 1.15 has no AbstractBlock, block properties live on Block.Properties
+// under both mappings, so the BlockBehaviour type entry and the simple-name table it needed are
+// gone. StemBlock/Registry are only referenced from the per-loader sources, never from :common.
 var mojmapToMcpTypes = new LinkedHashMap<String, String>()
-// order matters: longer/more specific keys first, so "...block.Block" cannot clip "...block.state.X"
-mojmapToMcpTypes.put('net.minecraft.world.level.block.state.BlockBehaviour', 'net.minecraft.block.AbstractBlock')
+// order matters: longer/more specific keys first, so "...block.Block" cannot clip "...block.Blocks"
 mojmapToMcpTypes.put('net.minecraft.world.level.block.FlowerPotBlock', 'net.minecraft.block.FlowerPotBlock')
-mojmapToMcpTypes.put('net.minecraft.world.level.block.StemBlock', 'net.minecraft.block.StemBlock')
 mojmapToMcpTypes.put('net.minecraft.world.level.block.Blocks', 'net.minecraft.block.Blocks')
 mojmapToMcpTypes.put('net.minecraft.world.level.block.Block', 'net.minecraft.block.Block')
 mojmapToMcpTypes.put('net.minecraft.resources.ResourceLocation', 'net.minecraft.util.ResourceLocation')
-mojmapToMcpTypes.put('net.minecraft.core.Registry', 'net.minecraft.util.registry.Registry')
-
-// simple names that still differ after the import line has been rewritten
-var mojmapToMcpSimpleNames = ['BlockBehaviour': 'AbstractBlock']
 
 var remapCommonToMcp = tasks.register('remapCommonToMcp', Copy) {
     description = "Translates the Mojang-mapped :common sources to the MCP class names Forge uses on ${minecraft_version}"
     from project(":common").sourceSets.main.java
     into layout.buildDirectory.dir('generated/sources/mcp')
-    // the rename tables are part of the task's input, otherwise editing them leaves stale output
+    // the rename table is part of the task's input, otherwise editing it leaves stale output
     inputs.property('mojmapToMcpTypes', mojmapToMcpTypes)
-    inputs.property('mojmapToMcpSimpleNames', mojmapToMcpSimpleNames)
     filter { String line ->
         String result = line
         mojmapToMcpTypes.each { mojmap, mcp -> result = result.replace(mojmap, mcp) }
-        mojmapToMcpSimpleNames.each { mojmap, mcp -> result = result.replaceAll('\\b' + mojmap + '\\b', mcp) }
         return result
     }
 }
@@ -114,7 +107,11 @@ var remapCommonToMcp = tasks.register('remapCommonToMcp', Copy) {
 sourceSets.main.java.srcDir(remapCommonToMcp)
 
 processResources {
-    from project(":common").sourceSets.main.resources
+    // 1.15 port: the access widener is a Fabric-only mechanism -- Forge already ships those
+    // Block.Properties setters as public, so keep it out of the forge jar
+    from(project(":common").sourceSets.main.resources) {
+        exclude 'notenoughpots.accesswidener'
+    }
 
     var expandProps = ['version'                        : version,
                        'group'                          : project.group, //Else we target the task's group.

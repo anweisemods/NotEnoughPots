@@ -4,8 +4,7 @@
   "textures": {
     "particle": "minecraft:block/flower_pot",
     "flowerpot": "minecraft:block/flower_pot",
-    "dirt": "minecraft:block/dirt",
-    "plant": "minecraft:block/weeping_vines_plant"
+    "dirt": "minecraft:block/dirt"
   },
   "elements": [
     {
@@ -61,23 +60,21 @@
       }
     },
     {
-      "from": [ 5.9, 4, 8 ],
-      "to": [ 10.1, 14, 8 ],
+      "from": [ 2.6, 4, 8 ],
+      "to": [ 13.4, 16, 8 ],
       "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": true },
-      "shade": false,
       "faces": {
-        "north": { "uv": [ 0, 0, 8, 16 ], "texture": "#plant" },
-        "south": { "uv": [ 0, 0, 8, 16 ], "texture": "#plant" }
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#plant", "tintindex": 0 },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#plant", "tintindex": 0 }
       }
     },
     {
-      "from": [ 8, 4, 5.9 ],
-      "to": [ 8, 14, 10.1 ],
+      "from": [ 8, 4, 2.6 ],
+      "to": [ 8, 16, 13.4 ],
       "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": true },
-      "shade": false,
       "faces": {
-        "west": { "uv": [ 0, 0, 8, 16 ], "texture": "#plant" },
-        "east": { "uv": [ 0, 0, 8, 16 ], "texture": "#plant" }
+        "west": { "uv": [ 0, 0, 16, 16 ], "texture": "#plant", "tintindex": 0 },
+        "east": { "uv": [ 0, 0, 16, 16 ], "texture": "#plant", "tintindex": 0 }
       }
     }
   ]

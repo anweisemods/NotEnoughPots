@@ -1,5 +1,5 @@
 plugins {
-    // 1.16 port: see common/build.gradle — loom 0.8+ requires a Java 16+ Gradle JVM, 0.7.x runs on Java 8
+    // 1.15 port: see common/build.gradle — loom 0.8+ requires a Java 16+ Gradle JVM, 0.7.x runs on Java 8
     id 'fabric-loom' version '0.7.35'
     id 'maven-publish'
     id 'idea'
@@ -16,6 +16,9 @@ dependencies {
 }
 
 loom {
+    // 1.15 port: same widener as :common, whose sources are compiled into this jar as well
+    accessWidener = project(':common').file('src/main/resources/notenoughpots.accesswidener')
+
     runs {
     }
 }
