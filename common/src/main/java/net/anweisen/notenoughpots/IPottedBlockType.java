@@ -53,12 +53,14 @@ public interface IPottedBlockType {
   default Block.Properties createPottedFlowerBlockProperties(String modId) {
     // (#6): no need to set loot_table manually [it defaults to "<mod_id>:blocks/<name>"],
     //      Properties.copy does not carry over the "drops" field of the vanilla flower pot
-    // 1.15 port: no instabreak() here -- it is protected in vanilla and redundant anyway, copy()
+    // 1.14 port: no instabreak() here -- it is protected in vanilla and redundant anyway, copy()
     //      already carries the flower pot's zeroed hardness and blast resistance over
-    // 1.15 port: light is a plain int on the properties -- the ToIntFunction<BlockState> overload
+    // 1.14 port: no noOcclusion() either -- Block.Properties has no canOcclude flag before 1.15,
+    //      occlusion is decided by the block's shape here
+    // 1.14 port: light is a plain int on the properties -- the ToIntFunction<BlockState> overload
     //      only arrives in 1.16, so resolve the flower's emission eagerly. lightLevel(int) is
     //      protected in vanilla, see notenoughpots.accesswidener
-    return Block.Properties.copy(Blocks.FLOWER_POT).noOcclusion()
+    return Block.Properties.copy(Blocks.FLOWER_POT)
       .lightLevel(getFlowerBlock().defaultBlockState().getLightEmission());
   }
 

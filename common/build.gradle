@@ -1,6 +1,6 @@
 plugins {
     id('java')
-    // 1.15 port: loom 0.8+ refuses to apply unless the *Gradle JVM* is Java 16+, which is wrong for a
+    // 1.14 port: loom 0.8+ refuses to apply unless the *Gradle JVM* is Java 16+, which is wrong for a
     // Java 8 game. 0.7.35 is the last line built for Java 8 and still has officialMojangMappings().
     id('fabric-loom') version '0.7.35'
 }
@@ -20,7 +20,7 @@ dependencies {
     annotationProcessor 'org.ow2.asm:asm-util:9.2'
 }
 
-// 1.15 port: :common is a plain shared module, not a mod, so there is no fabric.mod.json for loom
+// 1.14 port: :common is a plain shared module, not a mod, so there is no fabric.mod.json for loom
 // to read the widener path from -- only the loader jars need the widener remapped into them.
 // afterEvaluate, because loom itself only decides this flag once the project has been evaluated.
 afterEvaluate {
@@ -28,7 +28,7 @@ afterEvaluate {
 }
 
 loom {
-    // 1.15 port: Block.Properties#lightLevel(int) is protected in vanilla (Forge patches it public)
+    // 1.14 port: Block.Properties#lightLevel(int) is protected in vanilla (Forge patches it public)
     accessWidener = file('src/main/resources/notenoughpots.accesswidener')
 
     runs {

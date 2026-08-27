@@ -2,20 +2,17 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-// 1.15 port: Forge's 1.15.x mappings keep MCP class names -- BlockColor is IBlockColor and
-// ItemBlockRenderTypes is RenderTypeLookup here (see forge/build.gradle: remapCommonToMcp)
+// 1.14 port: Forge's 1.14.x mappings keep MCP class names -- BlockColor is IBlockColor here
+// (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.StemBlock;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -28,13 +25,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 )
 public class NotEnoughPotsForgeClient {
 
-  @SubscribeEvent
-  public static void onClientSetup(FMLClientSetupEvent event) {
-    // forge weirdly ignores the "render_type" (cutout) in the model json files -> replace it with an override
-    for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
-      RenderTypeLookup.setRenderLayer(block.findBlock(), RenderType.cutout());
-    }
-  }
+  // 1.14 port: no render layer override -- the render layer is still a property of the block itself
+  // here (Block#getRenderLayer), and vanilla FlowerPotBlock already returns CUTOUT.
+  // RenderTypeLookup only arrives with the 1.15 render rewrite.
 
   @SubscribeEvent
   public static void onRegisterBlockColors(ColorHandlerEvent.Block event) {

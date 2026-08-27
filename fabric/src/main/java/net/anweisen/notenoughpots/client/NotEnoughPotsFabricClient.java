@@ -3,13 +3,10 @@ package net.anweisen.notenoughpots.client;
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-// 1.15 port: the v0 colour registry, not rendering.v1 -- fabric-api 0.4.24+build.279-1.15 is the
-// only build that exists for 1.15.0 and it has no rendering.v1 package yet, while this one is in
-// every 1.15 build. Same class the 1.14 branch uses.
+// 1.14 port: the colour registry still lives in the old fabric-rendering-v0 module here --
+// fabric.api.client.rendering.v1 does not exist yet in fabric-api for 1.14
 import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StemBlock;
@@ -22,9 +19,9 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
 
   @Override
   public void onInitializeClient() {
-    for (NotEnoughPotsBlockType block : NotEnoughPotsBlockType.values()) {
-      BlockRenderLayerMap.INSTANCE.putBlock(block.findBlock(), RenderType.cutout());
-    }
+    // 1.14 port: no render layer registration -- the render layer is still a property of the block
+    // itself here (Block#getRenderLayer), and vanilla FlowerPotBlock already returns CUTOUT.
+    // RenderType/RenderTypeLookup only arrive with the 1.15 render rewrite.
 
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());

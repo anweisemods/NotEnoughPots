@@ -1,7 +1,7 @@
 package net.anweisen.notenoughpots;
 
 import net.anweisen.notenoughpots.platform.ForgePlatformBridge;
-// 1.15 port: Forge's 1.15.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
+// 1.14 port: Forge's 1.14.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -12,7 +12,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 @Mod(NotEnoughPotsCommons.MOD_ID)
 public class NotEnoughPotsForgeMod {
 
-  public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, NotEnoughPotsCommons.MOD_ID);
+  // 1.14 port: DeferredRegister has no static create(...) factory yet, only the public constructor
+  public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, NotEnoughPotsCommons.MOD_ID);
 
   public NotEnoughPotsForgeMod() {
     FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();

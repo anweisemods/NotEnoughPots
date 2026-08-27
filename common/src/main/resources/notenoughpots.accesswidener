@@ -1,6 +1,6 @@
 accessWidener	v1	named
 
-# 1.15 port: Block.Properties#lightLevel(int) is protected in vanilla -- Forge patches it public,
+# 1.14 port: Block.Properties#lightLevel(int) is protected in vanilla -- Forge patches it public,
 # but the Fabric side compiles against the untouched jar. It became public in 1.16 together with
 # AbstractBlock.Properties, so this widener only exists on the 1.15 and 1.14 branches.
 # See IPottedBlockType#createPottedFlowerBlockProperties.

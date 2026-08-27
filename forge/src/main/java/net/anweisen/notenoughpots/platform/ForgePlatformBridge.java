@@ -1,10 +1,10 @@
 package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
-// 1.15 port: Forge's 1.15.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
+// 1.14 port: Forge's 1.14.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
 import net.minecraftforge.eventbus.api.IEventBus;
-// 1.15 port: RegistryObject lives in net.minecraftforge.fml here
+// 1.14 port: RegistryObject lives in net.minecraftforge.fml here
 // (it moved to fmllegacy in 1.17, then to net.minecraftforge.registries in 1.18+)
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
