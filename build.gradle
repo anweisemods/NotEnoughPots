@@ -2,7 +2,7 @@ subprojects {
     
     apply plugin: 'java'
     
-    // 1.14 port: Mojang ships Java 8 to end users, so the mod must target Java 8 (matches the 1.14.x MDK)
+    // 1.13 port: Mojang ships Java 8 to end users, so the mod must target Java 8 (matches the 1.13.2 MDK)
     java.toolchain.languageVersion = JavaLanguageVersion.of(8)
     java.withSourcesJar()
     java.withJavadocJar()
@@ -40,11 +40,11 @@ subprojects {
     tasks.withType(JavaCompile).configureEach {
 
         it.options.encoding = 'UTF-8'
-        // 1.14 port: no options.release here — javac 8 predates --release, and the Java 8
+        // 1.13 port: no options.release here — javac 8 predates --release, and the Java 8
         // toolchain above already pins source/target compatibility to 8.
     }
 
-    // 1.14 port: JDK 8's javadoc runs doclint by default and is far stricter than 16's
+    // 1.13 port: JDK 8's javadoc runs doclint by default and is far stricter than 16's
     tasks.withType(Javadoc).configureEach {
         it.options.encoding = 'UTF-8'
         it.options.addStringOption('Xdoclint:none', '-quiet')

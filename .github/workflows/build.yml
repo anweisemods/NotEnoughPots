@@ -6,10 +6,10 @@ jobs:
     strategy:
       matrix:
         java: [
-          8  # Minimum supported by Minecraft (1.14)
+          8  # Minimum supported by Minecraft (1.13)
         ]
         os: [ubuntu-latest]
-        mod_loader: [fabric, forge]  # Add loaders to matrix
+        mod_loader: [forge]  # 1.13 port: no Fabric before 1.14
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
@@ -26,9 +26,6 @@ jobs:
       - name: Make gradle wrapper executable (Linux only)
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-
-      - name: Build Common Module
-        run: ./gradlew :common:build
 
       # Build for specific mod loader based on matrix
       - name: Build ${{ matrix.mod_loader }} Loader

@@ -18,7 +18,7 @@ Allows you to place any plant into vanilla flower pots</p> 
 > _Ever wondered why you can't place some plants in flower pots?_  
 > _Well, now you can!_
 
-*  Adds **68** Flower Pot Variants of their Plants
+*  Adds **67** Flower Pot Variants of their Plants
 
 <br/>
 <br/>

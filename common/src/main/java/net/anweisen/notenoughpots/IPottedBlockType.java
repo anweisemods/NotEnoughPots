@@ -1,9 +1,12 @@
 package net.anweisen.notenoughpots;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FlowerPotBlock;
+// 1.13 port: there is no Fabric for 1.13, so :common is written directly in the MCP names Forge
+// uses here -- no mojmap -> MCP translation step and no access widener any more
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * @author anweisen | https://github.com/anweisen
@@ -37,8 +40,27 @@ public interface IPottedBlockType {
    * @see #getFlowerBlock()
    */
   default Block createPottedFlowerBlock(String modId) {
-    // Apply loot table via custom properties (#6)
-    return new FlowerPotBlock(this.getFlowerBlock(), createPottedFlowerBlockProperties(modId));
+    // 1.13 port: BlockFlowerPot, the class is only renamed to FlowerPotBlock in the 1.14 mappings.
+    // It drops the pot plus an ItemStack of its content itself (block loot tables only exist from
+    // 1.14 on) -- which is empty for plants without a block item, hence PottedCropBlock.
+    Block.Properties properties = createPottedFlowerBlockProperties(modId);
+    Item crop = this.getCropItem();
+    return crop == null
+      ? new BlockFlowerPot(this.getFlowerBlock(), properties)
+      : new PottedCropBlock(this.getFlowerBlock(), crop, properties);
+  }
+
+  /**
+   * The item this potted block should drop for its plant, for plants that have no block item
+   * (wheat, carrots, nether wart, ...) and would otherwise drop nothing but the pot.
+   *
+   * <p>1.13 port: from 1.14 on this is expressed by the block loot tables instead.
+   *
+   * @return The plant item to drop, or {@code null} to drop the flower block itself
+   * @since 1.5
+   */
+  default Item getCropItem() {
+    return null;
   }
 
   /**
@@ -51,22 +73,16 @@ public interface IPottedBlockType {
    * @since 1.4.1
    */
   default Block.Properties createPottedFlowerBlockProperties(String modId) {
-    // (#6): no need to set loot_table manually [it defaults to "<mod_id>:blocks/<name>"],
-    //      Properties.copy does not carry over the "drops" field of the vanilla flower pot
-    // 1.14 port: no instabreak() here -- it is protected in vanilla and redundant anyway, copy()
-    //      already carries the flower pot's zeroed hardness and blast resistance over
-    // 1.14 port: no noOcclusion() either -- Block.Properties has no canOcclude flag before 1.15,
-    //      occlusion is decided by the block's shape here
-    // 1.14 port: light is a plain int on the properties -- the ToIntFunction<BlockState> overload
-    //      only arrives in 1.16, so resolve the flower's emission eagerly. lightLevel(int) is
-    //      protected in vanilla, see notenoughpots.accesswidener
-    return Block.Properties.copy(Blocks.FLOWER_POT)
-      .lightLevel(getFlowerBlock().defaultBlockState().getLightEmission());
+    // 1.13 port: from() instead of copy(), lightValue(int) instead of lightLevel(...). No
+    //      zeroHardnessAndResistance() either, from(FLOWER_POT) already carries the zeroed
+    //      hardness and blast resistance over.
+    return Block.Properties.from(Blocks.FLOWER_POT)
+      .lightValue(getFlowerBlock().getDefaultState().getLightValue());
   }
 
   /**
    * Creates a resource location for the potted block based on the mod id and the internal name.
-   * Used for registering the block and its loot table.
+   * Used for registering the block.
    *
    * @param modId The mod id to use for the resource location
    * @return The created resource location

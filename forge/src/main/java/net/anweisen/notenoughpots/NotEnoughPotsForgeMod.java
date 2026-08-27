@@ -1,24 +1,26 @@
 package net.anweisen.notenoughpots;
 
 import net.anweisen.notenoughpots.platform.ForgePlatformBridge;
-// 1.14 port: Forge's 1.14.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(NotEnoughPotsCommons.MOD_ID)
+@Mod.EventBusSubscriber(modid = NotEnoughPotsCommons.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class NotEnoughPotsForgeMod {
 
-  // 1.14 port: DeferredRegister has no static create(...) factory yet, only the public constructor
-  public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, NotEnoughPotsCommons.MOD_ID);
+  private static ForgePlatformBridge<NotEnoughPotsBlockType> bridge;
 
   public NotEnoughPotsForgeMod() {
-    FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
-    IEventBus eventBus = context.getModEventBus();
-    ForgePlatformBridge<NotEnoughPotsBlockType> bridge = new ForgePlatformBridge<>(NotEnoughPotsCommons.MOD_ID, eventBus, BLOCKS, NotEnoughPotsBlockType.class);
+    bridge = new ForgePlatformBridge<>(NotEnoughPotsCommons.MOD_ID, NotEnoughPotsBlockType.class);
     NotEnoughPotsCommons.init(bridge);
+  }
+
+  // 1.13 port: DeferredRegister only arrives with forge 28 (1.14.4), so the blocks are built in the
+  // mod constructor and handed to the registry event here
+  @SubscribeEvent
+  public static void onRegisterBlocks(RegistryEvent.Register<Block> event) {
+    bridge.registerAll(event.getRegistry());
   }
 }

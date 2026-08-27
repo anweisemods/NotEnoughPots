@@ -1,13 +1,8 @@
 package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
-// 1.14 port: Forge's 1.14.x mappings keep MCP class names (see forge/build.gradle: remapCommonToMcp)
 import net.minecraft.block.Block;
-import net.minecraftforge.eventbus.api.IEventBus;
-// 1.14 port: RegistryObject lives in net.minecraftforge.fml here
-// (it moved to fmllegacy in 1.17, then to net.minecraftforge.registries in 1.18+)
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.IForgeRegistry;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -17,31 +12,36 @@ import java.util.Map;
  */
 public class ForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implements IPlatformBridge<T> {
 
-  private final Map<T, RegistryObject<Block>> pottedBlocks;
+  private final Map<T, Block> pottedBlocks;
 
   private final String modId;
-  private final IEventBus eventBus;
-  private final DeferredRegister<Block> register;
 
-  public ForgePlatformBridge(String modId, IEventBus eventBus, DeferredRegister<Block> register, Class<T> enumClass) {
+  public ForgePlatformBridge(String modId, Class<T> enumClass) {
     this.modId = modId;
-    this.eventBus = eventBus;
-    this.register = register;
     this.pottedBlocks = new EnumMap<>(enumClass);
   }
 
   @Override
   public void registerPottedBlock(T type) {
-    pottedBlocks.put(type, register.register(type.getName(), () -> type.createPottedFlowerBlock(modId)));
+    // 1.13 port: no DeferredRegister/RegistryObject indirection -- the block is created eagerly and
+    // only handed to the registry once RegistryEvent.Register<Block> fires
+    Block block = type.createPottedFlowerBlock(modId);
+    block.setRegistryName(type.createResourceLocation(modId));
+    pottedBlocks.put(type, block);
   }
 
+  @Override
   public void finishRegistration() {
-    register.register(eventBus);
+    // the blocks are passed on by NotEnoughPotsForgeMod when the registry event fires
+  }
+
+  public void registerAll(IForgeRegistry<Block> registry) {
+    pottedBlocks.values().forEach(registry::register);
   }
 
   @Override
   public Block getPottedBlock(T type) {
-    return pottedBlocks.get(type).get();
+    return pottedBlocks.get(type);
   }
 
 }

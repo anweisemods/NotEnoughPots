@@ -2,11 +2,10 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-// 1.14 port: Forge's 1.14.x mappings keep MCP class names -- BlockColor is IBlockColor here
-// (see forge/build.gradle: remapCommonToMcp)
+// 1.13 port: MCP class names -- Blocks lives in net.minecraft.init here and StemBlock is BlockStem
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StemBlock;
+import net.minecraft.block.BlockStem;
+import net.minecraft.init.Blocks;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,8 +24,8 @@ import net.minecraftforge.fml.common.Mod;
 )
 public class NotEnoughPotsForgeClient {
 
-  // 1.14 port: no render layer override -- the render layer is still a property of the block itself
-  // here (Block#getRenderLayer), and vanilla FlowerPotBlock already returns CUTOUT.
+  // 1.13 port: no render layer override -- the render layer is still a property of the block itself
+  // here (Block#getRenderLayer), and vanilla BlockFlowerPot already returns CUTOUT.
   // RenderTypeLookup only arrives with the 1.15 render rewrite.
 
   @SubscribeEvent
@@ -64,11 +63,11 @@ public class NotEnoughPotsForgeClient {
   }
 
   private static IBlockColor mimicBlockColor(BlockColors colors, Block template) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState(), blockAndTintGetter, blockPos, i);
+    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.getDefaultState(), blockAndTintGetter, blockPos, i);
   }
 
   private static IBlockColor agedStemBlockColor(BlockColors colors, Block template, int stage) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.defaultBlockState().setValue(StemBlock.AGE, stage), blockAndTintGetter, blockPos, i);
+    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.getDefaultState().with(BlockStem.AGE, stage), blockAndTintGetter, blockPos, i);
   }
 
   private static IBlockColor warmWaterBlockColor() {

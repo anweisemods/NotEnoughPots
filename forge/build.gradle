@@ -2,8 +2,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    // 1.14 port: ForgeGradle 6 requires java 17 and drops the pre-1.17 mapping channels.
-    // 5.1 still consumes forge 28.x userdev and runs on gradle 7 with a java 8 gradle jvm.
+    // 1.13 port: ForgeGradle 6 requires java 17 and drops the MCP mapping channels entirely.
+    // 5.1 still consumes forge 25.x userdev and runs on gradle 7 with a java 8 gradle jvm.
     id 'net.minecraftforge.gradle' version '[5.1,5.2)'
 }
 
@@ -13,8 +13,10 @@ group = group
 archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 minecraft {
-    mappings channel: 'official', version: minecraft_version
-    
+    // 1.13 port: Mojang only started publishing obfuscation maps with 1.14.4, so 'official' does
+    // not exist for 1.13.2 -- the whole mod is written in MCP names on this branch.
+    mappings channel: mcp_mappings_channel, version: mcp_mappings_version
+
     if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
         // This location is hardcoded in Forge and can not be changed.
         // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
@@ -27,12 +29,9 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 modClientRun {
                     source sourceSets.main
-                    source project(":common").sourceSets.main
                 }
             }
         }
@@ -41,12 +40,9 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 modServerRun {
                     source sourceSets.main
-                    source project(":common").sourceSets.main
                 }
             }
         }
@@ -56,12 +52,9 @@ minecraft {
             ideaModule "${rootProject.name}.${project.name}.main"
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             taskName 'Data'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 modDataRun {
                     source sourceSets.main
-                    source project(":common").sourceSets.main
                 }
             }
         }
@@ -70,66 +63,33 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
+// 1.13 port: :common is no longer a gradle project (it only existed to give the fabric side its own
+// minecraft dependency), its sources and resources are compiled straight into the forge jar.
+// This also replaces the remapCommonToMcp task the 1.14 - 1.16 branches needed: :common is written
+// in MCP names here, so there is nothing left to translate.
+sourceSets.main.java.srcDir rootProject.file('common/src/main/java')
+sourceSets.main.resources.srcDir rootProject.file('common/src/main/resources')
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    // 1.14 port: no `compileOnly project(":common")` -- common is compiled against Mojang class
-    // names (Fabric/loom), which do not exist in Forge's 1.14.x mappings. See remapCommonToMcp.
 }
-
-// 1.14 port: Forge's 'official' mapping channel renames *members* to Mojang names but leaves
-// *class* names as MCP (net.minecraft.block.Blocks, net.minecraft.util.ResourceLocation) -- the
-// flattening to Mojang class names only landed in 1.17. The shared :common sources are written
-// against Mojang class names for Fabric, so translate them here rather than forking a second copy
-// of the 68-entry block enum. Member names are identical on both sides, so this is purely types.
-// 1.14 has no AbstractBlock either, block properties live on Block.Properties under both mappings.
-// StemBlock/Registry are only referenced from the per-loader sources, never from :common.
-var mojmapToMcpTypes = new LinkedHashMap<String, String>()
-// order matters: longer/more specific keys first, so "...block.Block" cannot clip "...block.Blocks"
-mojmapToMcpTypes.put('net.minecraft.world.level.block.FlowerPotBlock', 'net.minecraft.block.FlowerPotBlock')
-mojmapToMcpTypes.put('net.minecraft.world.level.block.Blocks', 'net.minecraft.block.Blocks')
-mojmapToMcpTypes.put('net.minecraft.world.level.block.Block', 'net.minecraft.block.Block')
-mojmapToMcpTypes.put('net.minecraft.resources.ResourceLocation', 'net.minecraft.util.ResourceLocation')
-
-var remapCommonToMcp = tasks.register('remapCommonToMcp', Copy) {
-    description = "Translates the Mojang-mapped :common sources to the MCP class names Forge uses on ${minecraft_version}"
-    from project(":common").sourceSets.main.java
-    into layout.buildDirectory.dir('generated/sources/mcp')
-    // the rename table is part of the task's input, otherwise editing it leaves stale output
-    inputs.property('mojmapToMcpTypes', mojmapToMcpTypes)
-    filter { String line ->
-        String result = line
-        mojmapToMcpTypes.each { mojmap, mcp -> result = result.replace(mojmap, mcp) }
-        return result
-    }
-}
-
-sourceSets.main.java.srcDir(remapCommonToMcp)
 
 processResources {
-    // 1.14 port: the access widener is a Fabric-only mechanism -- Forge already ships those
-    // Block.Properties setters as public, so keep it out of the forge jar
-    from(project(":common").sourceSets.main.resources) {
-        exclude 'notenoughpots.accesswidener'
-    }
+    var expandProps = ['version'                    : version,
+                       'group'                      : project.group, //Else we target the task's group.
+                       'minecraft_version'          : minecraft_version,
+                       'minecraft_version_range'    : minecraft_version_range,
+                       'mod_name'                   : mod_name,
+                       'mod_author'                 : mod_author,
+                       'mod_id'                     : mod_id,
+                       'description'                : project.description,
+                       "forge_version"              : forge_version,
+                       "forge_version_range"        : forge_version_range,
+                       "forge_loader_version_range" : forge_loader_version_range,
+                       'license'                    : license,
+                       'java_version'               : java_version]
 
-    var expandProps = ['version'                        : version,
-                       'group'                          : project.group, //Else we target the task's group.
-                       'minecraft_version'              : minecraft_version,
-                       'minecraft_version_range'        : minecraft_version_range,
-                       'minecraft_version_range_fabric' : minecraft_version_range_fabric,
-                       'fabric_version'                 : fabric_version,
-                       'fabric_loader_version'          : fabric_loader_version,
-                       'mod_name'                       : mod_name,
-                       'mod_author'                     : mod_author,
-                       'mod_id'                         : mod_id,
-                       'description'                    : project.description,
-                       "forge_version"                  : forge_version,
-                       "forge_version_range"            : forge_version_range,
-                       "forge_loader_version_range"     : forge_loader_version_range,
-                       'license'                        : license,
-                       'java_version'                   : java_version]
-
-    filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
+    filesMatching(['pack.mcmeta', 'META-INF/mods.toml']) {
         expand expandProps
     }
 }

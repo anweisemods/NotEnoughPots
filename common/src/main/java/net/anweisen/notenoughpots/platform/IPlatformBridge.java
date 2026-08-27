@@ -1,7 +1,7 @@
 package net.anweisen.notenoughpots.platform;
 
 import net.anweisen.notenoughpots.IPottedBlockType;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.block.Block;
 
 /**
  * @author anweisen | https://github.com/anweisen

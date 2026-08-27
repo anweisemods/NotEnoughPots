@@ -6,10 +6,6 @@ pluginManagement {
             url = 'https://maven.minecraftforge.net/'
         }
         maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        maven {
             name = 'Sponge Snapshots'
             url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
@@ -17,4 +13,6 @@ pluginManagement {
 }
 
 rootProject.name = 'NotEnoughPots'
-include("common", "fabric", "forge")
+// 1.13 port: forge only -- there is no Fabric intermediary for 1.13, so there is no :fabric module
+// and :common is not a gradle project any more, its sources are compiled straight into :forge
+include("forge")
