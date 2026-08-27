@@ -13,6 +13,6 @@ pluginManagement {
 }
 
 rootProject.name = 'NotEnoughPots'
-// 1.13 port: forge only -- there is no Fabric intermediary for 1.13, so there is no :fabric module
-// and :common is not a gradle project any more, its sources are compiled straight into :forge
+// 1.12 port: forge only -- there is no Fabric intermediary before 1.14, and :common is not a gradle
+// project any more, its sources are compiled straight into :forge
 include("forge")

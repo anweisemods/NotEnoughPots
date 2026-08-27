@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_hay_block"
+    "normal": {
+      "model": "notenoughpots:potted_hay_block"
     }
   }
 }

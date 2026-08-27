@@ -1,9 +1,8 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_parts",
   "textures": {
-    "bottom": "minecraft:block/rose_bush_bottom",
-    "top": "minecraft:block/rose_bush_top"
+    "bottom": "blocks/double_plant_rose_bottom",
+    "top": "blocks/double_plant_rose_top"
   }
 }

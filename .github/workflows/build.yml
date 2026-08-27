@@ -6,10 +6,10 @@ jobs:
     strategy:
       matrix:
         java: [
-          8  # Minimum supported by Minecraft (1.13)
+          8  # Minimum supported by Minecraft (1.12)
         ]
         os: [ubuntu-latest]
-        mod_loader: [forge]  # 1.13 port: no Fabric before 1.14
+        mod_loader: [forge]  # 1.12 port: no Fabric before 1.14
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository

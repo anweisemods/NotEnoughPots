@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_sugar_cane"
+    "normal": {
+      "model": "notenoughpots:potted_sugar_cane"
     }
   }
 }

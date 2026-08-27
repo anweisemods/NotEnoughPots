@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_cocoa"
+    "normal": {
+      "model": "notenoughpots:potted_cocoa"
     }
   }
 }

@@ -1,8 +1,7 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_leaves",
   "textures": {
-    "side": "minecraft:block/oak_leaves"
+    "side": "blocks/leaves_oak"
   }
 }

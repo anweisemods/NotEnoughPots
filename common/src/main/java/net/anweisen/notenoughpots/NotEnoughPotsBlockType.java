@@ -1,10 +1,15 @@
 package net.anweisen.notenoughpots;
 
-// 1.13 port: MCP class names, see IPottedBlockType
+// 1.12 port: MCP class names, see IPottedBlockType
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import java.util.Locale;
 
 /**
@@ -13,88 +18,72 @@ import java.util.Locale;
  */
 public enum NotEnoughPotsBlockType implements IPottedBlockType {
 
-  POTTED_SUGAR_CANE(Blocks.SUGAR_CANE),
-  POTTED_SUNFLOWER(Blocks.SUNFLOWER),
-  POTTED_ROSE_BUSH(Blocks.ROSE_BUSH),
-  POTTED_PEONY(Blocks.PEONY),
-  POTTED_LILAC(Blocks.LILAC),
-  POTTED_LARGE_FERN(Blocks.LARGE_FERN),
+  // 1.12 port: the plant item is only spelled out where it is not the flower block's own item --
+  // crops, reeds and cocoa have no block item and would otherwise be unobtainable
+  POTTED_SUGAR_CANE(Blocks.REEDS, Items.REEDS),
+  POTTED_SUNFLOWER(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.SUNFLOWER.getMeta()),
+  POTTED_ROSE_BUSH(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.ROSE.getMeta()),
+  POTTED_PEONY(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.PAEONIA.getMeta()),
+  POTTED_LILAC(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.SYRINGA.getMeta()),
+  POTTED_LARGE_FERN(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.FERN.getMeta()),
   POTTED_MELON_STEM(Blocks.MELON_STEM, Items.MELON_SEEDS),
   POTTED_PUMPKIN_STEM(Blocks.PUMPKIN_STEM, Items.PUMPKIN_SEEDS),
-  POTTED_SHORT_GRASS(Blocks.GRASS),
-  POTTED_TALL_GRASS(Blocks.TALL_GRASS),
+  POTTED_SHORT_GRASS(Blocks.TALLGRASS, BlockTallGrass.EnumType.GRASS.getMeta()),
+  POTTED_TALL_GRASS(Blocks.DOUBLE_PLANT, BlockDoublePlant.EnumPlantType.GRASS.getMeta()),
   POTTED_WHEAT(Blocks.WHEAT, Items.WHEAT_SEEDS),
   POTTED_CARROTS(Blocks.CARROTS, Items.CARROT),
   POTTED_POTATOES(Blocks.POTATOES, Items.POTATO),
   POTTED_BEETROOTS(Blocks.BEETROOTS, Items.BEETROOT_SEEDS),
-  POTTED_MELON_BLOCK(Blocks.MELON),
+  POTTED_MELON_BLOCK(Blocks.MELON_BLOCK),
+  // 1.12 port: minecraft:pumpkin still is the carved pumpkin here, there is no separate
+  //      carved_pumpkin block -- so this branch has no POTTED_CARVED_PUMPKIN
   POTTED_PUMPKIN_BLOCK(Blocks.PUMPKIN),
   POTTED_CHORUS_FLOWER(Blocks.CHORUS_FLOWER),
   POTTED_CHORUS_PLANT(Blocks.CHORUS_PLANT),
   POTTED_NETHER_WART(Blocks.NETHER_WART, Items.NETHER_WART),
-  POTTED_COCOA(Blocks.COCOA, Items.COCOA_BEANS),
+  POTTED_COCOA(Blocks.COCOA, new ItemStack(Items.DYE, 1, EnumDyeColor.BROWN.getDyeDamage())),
   POTTED_VINE(Blocks.VINE),
   POTTED_RED_MUSHROOM_BLOCK(Blocks.RED_MUSHROOM_BLOCK),
   POTTED_BROWN_MUSHROOM_BLOCK(Blocks.BROWN_MUSHROOM_BLOCK),
-  POTTED_MUSHROOM_STEM(Blocks.MUSHROOM_STEM),
-  POTTED_OAK_LEAVES(Blocks.OAK_LEAVES),
-  POTTED_SPRUCE_LEAVES(Blocks.SPRUCE_LEAVES),
-  POTTED_BIRCH_LEAVES(Blocks.BIRCH_LEAVES),
-  POTTED_JUNGLE_LEAVES(Blocks.JUNGLE_LEAVES),
-  POTTED_ACACIA_LEAVES(Blocks.ACACIA_LEAVES),
-  POTTED_DARK_OAK_LEAVES(Blocks.DARK_OAK_LEAVES),
+  // 1.12 port: no POTTED_MUSHROOM_STEM -- the stem is only a metadata variant of the mushroom
+  //      blocks here and has no item of its own that could be put into a pot
+  POTTED_OAK_LEAVES(Blocks.LEAVES, BlockPlanks.EnumType.OAK.getMetadata()),
+  POTTED_SPRUCE_LEAVES(Blocks.LEAVES, BlockPlanks.EnumType.SPRUCE.getMetadata()),
+  POTTED_BIRCH_LEAVES(Blocks.LEAVES, BlockPlanks.EnumType.BIRCH.getMetadata()),
+  POTTED_JUNGLE_LEAVES(Blocks.LEAVES, BlockPlanks.EnumType.JUNGLE.getMetadata()),
+  // LEAVES2 holds the two wood types that did not fit into the metadata bits of LEAVES
+  POTTED_ACACIA_LEAVES(Blocks.LEAVES2, BlockPlanks.EnumType.ACACIA.getMetadata() - 4),
+  POTTED_DARK_OAK_LEAVES(Blocks.LEAVES2, BlockPlanks.EnumType.DARK_OAK.getMetadata() - 4),
   POTTED_NETHER_WART_BLOCK(Blocks.NETHER_WART_BLOCK),
   POTTED_HAY_BLOCK(Blocks.HAY_BLOCK),
-  POTTED_CARVED_PUMPKIN(Blocks.CARVED_PUMPKIN),
-  POTTED_JACK_O_LANTERN(Blocks.JACK_O_LANTERN),
-  // 1.13+
-  POTTED_SEA_PICKLE(Blocks.SEA_PICKLE),
-  POTTED_KELP(Blocks.KELP),
-  POTTED_SEAGRASS(Blocks.SEAGRASS),
-  POTTED_TUBE_CORAL(Blocks.TUBE_CORAL),
-  POTTED_BRAIN_CORAL(Blocks.BRAIN_CORAL),
-  POTTED_BUBBLE_CORAL(Blocks.BUBBLE_CORAL),
-  POTTED_FIRE_CORAL(Blocks.FIRE_CORAL),
-  POTTED_HORN_CORAL(Blocks.HORN_CORAL),
-  POTTED_DEAD_TUBE_CORAL(Blocks.DEAD_TUBE_CORAL),
-  POTTED_DEAD_BRAIN_CORAL(Blocks.DEAD_BRAIN_CORAL),
-  POTTED_DEAD_BUBBLE_CORAL(Blocks.DEAD_BUBBLE_CORAL),
-  POTTED_DEAD_FIRE_CORAL(Blocks.DEAD_FIRE_CORAL),
-  POTTED_DEAD_HORN_CORAL(Blocks.DEAD_HORN_CORAL),
-  POTTED_TUBE_CORAL_FAN(Blocks.TUBE_CORAL_FAN),
-  POTTED_BRAIN_CORAL_FAN(Blocks.BRAIN_CORAL_FAN),
-  POTTED_BUBBLE_CORAL_FAN(Blocks.BUBBLE_CORAL_FAN),
-  POTTED_HORN_CORAL_FAN(Blocks.HORN_CORAL_FAN),
-  POTTED_FIRE_CORAL_FAN(Blocks.FIRE_CORAL_FAN),
-  POTTED_DEAD_TUBE_CORAL_FAN(Blocks.DEAD_TUBE_CORAL_FAN),
-  POTTED_DEAD_BRAIN_CORAL_FAN(Blocks.DEAD_BRAIN_CORAL_FAN),
-  POTTED_DEAD_BUBBLE_CORAL_FAN(Blocks.DEAD_BUBBLE_CORAL_FAN),
-  POTTED_DEAD_HORN_CORAL_FAN(Blocks.DEAD_HORN_CORAL_FAN),
-  POTTED_DEAD_FIRE_CORAL_FAN(Blocks.DEAD_FIRE_CORAL_FAN),
-  POTTED_TUBE_CORAL_BLOCK(Blocks.TUBE_CORAL_BLOCK),
-  POTTED_BRAIN_CORAL_BLOCK(Blocks.BRAIN_CORAL_BLOCK),
-  POTTED_BUBBLE_CORAL_BLOCK(Blocks.BUBBLE_CORAL_BLOCK),
-  POTTED_FIRE_CORAL_BLOCK(Blocks.FIRE_CORAL_BLOCK),
-  POTTED_HORN_CORAL_BLOCK(Blocks.HORN_CORAL_BLOCK),
-  POTTED_DEAD_TUBE_CORAL_BLOCK(Blocks.DEAD_TUBE_CORAL_BLOCK),
-  POTTED_DEAD_BRAIN_CORAL_BLOCK(Blocks.DEAD_BRAIN_CORAL_BLOCK),
-  POTTED_DEAD_BUBBLE_CORAL_BLOCK(Blocks.DEAD_BUBBLE_CORAL_BLOCK),
-  POTTED_DEAD_FIRE_CORAL_BLOCK(Blocks.DEAD_FIRE_CORAL_BLOCK),
-  POTTED_DEAD_HORN_CORAL_BLOCK(Blocks.DEAD_HORN_CORAL_BLOCK),
+  POTTED_JACK_O_LANTERN(Blocks.LIT_PUMPKIN),
   ;
 
   private final String name;
   private final Block flower;
-  // 1.13 port: the plant item to drop for plants that have no block item, see IPottedBlockType#getCropItem
-  private final Item crop;
+  private final int meta;
+  private final ItemStack plant;
 
   NotEnoughPotsBlockType(Block flower) {
-    this(flower, null);
+    this(flower, 0, null);
   }
 
-  NotEnoughPotsBlockType(Block flower, Item crop) {
+  NotEnoughPotsBlockType(Block flower, int meta) {
+    this(flower, meta, null);
+  }
+
+  NotEnoughPotsBlockType(Block flower, Item plant) {
+    this(flower, 0, new ItemStack(plant));
+  }
+
+  NotEnoughPotsBlockType(Block flower, ItemStack plant) {
+    this(flower, 0, plant);
+  }
+
+  NotEnoughPotsBlockType(Block flower, int meta, ItemStack plant) {
     this.flower = flower;
-    this.crop = crop;
+    this.meta = meta;
+    this.plant = plant != null ? plant : new ItemStack(flower, 1, meta);
     // using Locale.ROOT fixes https://github.com/anweisemods/NotEnoughPots/issues/4
     this.name = this.name().toLowerCase(Locale.ROOT);
   }
@@ -105,17 +94,37 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
   }
 
   @Override
+  public int getFlowerMeta() {
+    return this.meta;
+  }
+
+  @Override
+  public ItemStack createPlantStack() {
+    return this.plant.copy();
+  }
+
+  @Override
   public String getName() {
     return this.name;
   }
 
-  @Override
-  public Item getCropItem() {
-    return this.crop;
-  }
-
   public Block findBlock() {
     return NotEnoughPotsCommons.getBridge().getPottedBlock(this);
+  }
+
+  /**
+   * Looks up the potted block type an item stack can be potted as.
+   *
+   * @param stack The stack the player is holding
+   * @return The matching type, or {@code null} if the item is not one of ours
+   * @since 1.5
+   */
+  public static NotEnoughPotsBlockType findByPlant(ItemStack stack) {
+    if (stack.isEmpty()) return null;
+    for (NotEnoughPotsBlockType type : values()) {
+      if (ItemStack.areItemsEqual(type.plant, stack)) return type;
+    }
+    return null;
   }
 
 }

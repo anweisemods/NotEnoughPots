@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_chorus_flower"
+    "normal": {
+      "model": "notenoughpots:potted_chorus_flower"
     }
   }
 }

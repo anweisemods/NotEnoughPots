@@ -1,8 +1,7 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_crop",
   "textures": {
-    "crop": "minecraft:block/wheat_stage7"
+    "crop": "blocks/wheat_stage_7"
   }
 }

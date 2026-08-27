@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "${mod_id}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "version": "${version}",
+    "mcversion": "${minecraft_version}",
+    "url": "https://github.com/anweisemods/NotEnoughPots",
+    "updateUrl": "",
+    "authorList": ["${mod_author}"],
+    "credits": "",
+    "logoFile": "${mod_id}.png",
+    "screenshots": [],
+    "parent": "",
+    "useDependencyInformation": true,
+    "requiredMods": ["forge@${forge_version_range}"],
+    "dependencies": ["forge"]
+  }
+]

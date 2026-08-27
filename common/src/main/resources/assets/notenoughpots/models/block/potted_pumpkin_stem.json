@@ -1,8 +1,7 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_cross_tinted",
   "textures": {
-    "plant": "minecraft:block/pumpkin_stem"
+    "plant": "blocks/pumpkin_stem_disconnected"
   }
 }

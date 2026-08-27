@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_tall_grass"
+    "normal": {
+      "model": "notenoughpots:potted_tall_grass"
     }
   }
 }

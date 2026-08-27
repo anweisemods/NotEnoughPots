@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_wheat"
+    "normal": {
+      "model": "notenoughpots:potted_wheat"
     }
   }
 }

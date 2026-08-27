@@ -2,8 +2,9 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    // 1.13 port: ForgeGradle 6 requires java 17 and drops the MCP mapping channels entirely.
-    // 5.1 still consumes forge 25.x userdev and runs on gradle 7 with a java 8 gradle jvm.
+    // 1.12 port: the 1.12.2 MDK is on ForgeGradle 3, which is what reads forge 14.23.x userdev3.
+    // 5.1 is the same architecture, still ships the MCP mapping channels and runs on gradle 7 with
+    // a java 8 gradle jvm -- so the wrapper stays the same as on the newer branches.
     id 'net.minecraftforge.gradle' version '[5.1,5.2)'
 }
 
@@ -13,22 +14,15 @@ group = group
 archivesBaseName = "${mod_id}-forge-${minecraft_version}"
 
 minecraft {
-    // 1.13 port: Mojang only started publishing obfuscation maps with 1.14.4, so 'official' does
-    // not exist for 1.13.2 -- the whole mod is written in MCP names on this branch.
+    // 1.12 port: Mojang only started publishing obfuscation maps with 1.14.4, MCP is the only option
     mappings channel: mcp_mappings_channel, version: mcp_mappings_version
-
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
-    }
 
     runs {
         client {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
+            property 'forge.logging.console.level', 'debug'
             mods {
                 modClientRun {
                     source sourceSets.main
@@ -40,20 +34,9 @@ minecraft {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
+            property 'forge.logging.console.level', 'debug'
             mods {
                 modServerRun {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            taskName 'Data'
-            mods {
-                modDataRun {
                     source sourceSets.main
                 }
             }
@@ -61,12 +44,8 @@ minecraft {
     }
 }
 
-sourceSets.main.resources.srcDir 'src/generated/resources'
-
-// 1.13 port: :common is no longer a gradle project (it only existed to give the fabric side its own
-// minecraft dependency), its sources and resources are compiled straight into the forge jar.
-// This also replaces the remapCommonToMcp task the 1.14 - 1.16 branches needed: :common is written
-// in MCP names here, so there is nothing left to translate.
+// 1.12 port: :common is not a gradle project (it only existed to give the fabric side its own
+// minecraft dependency); its sources and resources are compiled straight into the forge jar.
 sourceSets.main.java.srcDir rootProject.file('common/src/main/java')
 sourceSets.main.resources.srcDir rootProject.file('common/src/main/resources')
 
@@ -89,7 +68,8 @@ processResources {
                        'license'                    : license,
                        'java_version'               : java_version]
 
-    filesMatching(['pack.mcmeta', 'META-INF/mods.toml']) {
+    // 1.12 port: mcmod.info instead of META-INF/mods.toml, the toml descriptor only arrives in 1.13
+    filesMatching(['pack.mcmeta', 'mcmod.info', 'version.properties']) {
         expand expandProps
     }
 }

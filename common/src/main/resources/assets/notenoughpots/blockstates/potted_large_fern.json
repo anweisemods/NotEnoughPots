@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_large_fern"
+    "normal": {
+      "model": "notenoughpots:potted_large_fern"
     }
   }
 }

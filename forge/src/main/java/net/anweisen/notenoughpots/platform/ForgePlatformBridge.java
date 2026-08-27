@@ -23,7 +23,7 @@ public class ForgePlatformBridge<T extends Enum<T> & IPottedBlockType> implement
 
   @Override
   public void registerPottedBlock(T type) {
-    // 1.13 port: no DeferredRegister/RegistryObject indirection -- the block is created eagerly and
+    // 1.12 port: no DeferredRegister/RegistryObject indirection -- the block is created eagerly and
     // only handed to the registry once RegistryEvent.Register<Block> fires
     Block block = type.createPottedFlowerBlock(modId);
     block.setRegistryName(type.createResourceLocation(modId));

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_peony"
+    "normal": {
+      "model": "notenoughpots:potted_peony"
     }
   }
 }

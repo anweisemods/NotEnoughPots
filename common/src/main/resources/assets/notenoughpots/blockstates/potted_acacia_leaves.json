@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_acacia_leaves"
+    "normal": {
+      "model": "notenoughpots:potted_acacia_leaves"
     }
   }
 }

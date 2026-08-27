@@ -2,79 +2,61 @@ package net.anweisen.notenoughpots.client;
 
 import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
-// 1.13 port: MCP class names -- Blocks lives in net.minecraft.init here and StemBlock is BlockStem
-import net.minecraft.block.Block;
+// 1.12 port: MCP class names -- BlockColor is IBlockColor and its method is colorMultiplier here
 import net.minecraft.block.BlockStem;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
-// 1.13 port: the FORGE bus, not the mod bus -- forge 25.x still posts ColorHandlerEvent from
-// ForgeHooksClient#onBlockColorsInit on MinecraftForge.EVENT_BUS. It only moves to the mod bus
-// (ModLoader#postEvent) with forge 28 for 1.14.4, which is what the 1.14+ branches subscribe to.
 @Mod.EventBusSubscriber(
-  value = Dist.CLIENT,
-  modid = NotEnoughPotsCommons.MOD_ID,
-  bus = Mod.EventBusSubscriber.Bus.FORGE
+  value = Side.CLIENT,
+  modid = NotEnoughPotsCommons.MOD_ID
 )
 public class NotEnoughPotsForgeClient {
 
-  // 1.13 port: no render layer override -- the render layer is still a property of the block itself
-  // here (Block#getRenderLayer), and vanilla BlockFlowerPot already returns CUTOUT.
-  // RenderTypeLookup only arrives with the 1.15 render rewrite.
+  // 1.12 port: no render layer override here -- the layer is a property of the block itself
+  // (Block#getBlockLayer), see PottedBlock. RenderTypeLookup only arrives with the 1.15 rewrite.
 
   @SubscribeEvent
   public static void onRegisterBlockColors(ColorHandlerEvent.Block event) {
     BlockColors blockColors = event.getBlockColors();
 
-    blockColors.register(mimicBlockColor(blockColors, Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.TALL_GRASS), NotEnoughPotsBlockType.POTTED_TALL_GRASS.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.VINE), NotEnoughPotsBlockType.POTTED_VINE.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.OAK_LEAVES), NotEnoughPotsBlockType.POTTED_OAK_LEAVES.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.SPRUCE_LEAVES), NotEnoughPotsBlockType.POTTED_SPRUCE_LEAVES.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.BIRCH_LEAVES), NotEnoughPotsBlockType.POTTED_BIRCH_LEAVES.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.JUNGLE_LEAVES), NotEnoughPotsBlockType.POTTED_JUNGLE_LEAVES.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.ACACIA_LEAVES), NotEnoughPotsBlockType.POTTED_ACACIA_LEAVES.findBlock());
-    blockColors.register(mimicBlockColor(blockColors, Blocks.DARK_OAK_LEAVES), NotEnoughPotsBlockType.POTTED_DARK_OAK_LEAVES.findBlock());
+    // every plant whose own block is biome tinted has to be tinted in the pot as well
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_SUGAR_CANE);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_SHORT_GRASS);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_TALL_GRASS);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_LARGE_FERN);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_VINE);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_OAK_LEAVES);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_SPRUCE_LEAVES);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_BIRCH_LEAVES);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_JUNGLE_LEAVES);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_ACACIA_LEAVES);
+    mimic(blockColors, NotEnoughPotsBlockType.POTTED_DARK_OAK_LEAVES);
 
-    blockColors.register(agedStemBlockColor(blockColors, Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
-    blockColors.register(agedStemBlockColor(blockColors, Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
-
-    // 1.13+
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_KELP.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_SEAGRASS.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_TUBE_CORAL.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BRAIN_CORAL.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BUBBLE_CORAL.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_FIRE_CORAL.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_TUBE_CORAL_FAN.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BRAIN_CORAL_FAN.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_BUBBLE_CORAL_FAN.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_FIRE_CORAL_FAN.findBlock());
-    blockColors.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_HORN_CORAL_FAN.findBlock());
+    agedStem(blockColors, NotEnoughPotsBlockType.POTTED_MELON_STEM, 5);
+    agedStem(blockColors, NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM, 7);
   }
 
-  private static IBlockColor mimicBlockColor(BlockColors colors, Block template) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.getDefaultState(), blockAndTintGetter, blockPos, i);
+  private static void mimic(BlockColors colors, NotEnoughPotsBlockType type) {
+    colors.registerBlockColorHandler(mimicBlockColor(colors, type.getFlowerState()), type.findBlock());
   }
 
-  private static IBlockColor agedStemBlockColor(BlockColors colors, Block template, int stage) {
-    return (blockState, blockAndTintGetter, blockPos, i) -> colors.getColor(template.getDefaultState().with(BlockStem.AGE, stage), blockAndTintGetter, blockPos, i);
+  private static void agedStem(BlockColors colors, NotEnoughPotsBlockType type, int stage) {
+    IBlockState grown = type.getFlowerState().withProperty(BlockStem.AGE, stage);
+    colors.registerBlockColorHandler(mimicBlockColor(colors, grown), type.findBlock());
   }
 
-  private static IBlockColor warmWaterBlockColor() {
-    return (blockState, blockAndTintGetter, blockPos, i) -> NotEnoughPotsCommons.WARM_WATER_COLOR;
+  private static IBlockColor mimicBlockColor(BlockColors colors, IBlockState template) {
+    return (blockState, blockAccess, blockPos, tintIndex) -> colors.colorMultiplier(template, blockAccess, blockPos, tintIndex);
   }
 
 }

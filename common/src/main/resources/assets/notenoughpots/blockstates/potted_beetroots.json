@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_beetroots"
+    "normal": {
+      "model": "notenoughpots:potted_beetroots"
     }
   }
 }

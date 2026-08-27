@@ -1,8 +1,7 @@
 {
-  "render_type": "minecraft:cutout",
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_mushroom_block",
   "textures": {
-    "side": "minecraft:block/brown_mushroom_block"
+    "side": "blocks/mushroom_block_skin_brown"
   }
 }

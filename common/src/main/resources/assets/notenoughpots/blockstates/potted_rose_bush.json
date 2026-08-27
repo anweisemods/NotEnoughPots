@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_rose_bush"
+    "normal": {
+      "model": "notenoughpots:potted_rose_bush"
     }
   }
 }

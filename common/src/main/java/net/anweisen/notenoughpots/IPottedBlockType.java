@@ -1,11 +1,10 @@
 package net.anweisen.notenoughpots;
 
-// 1.13 port: there is no Fabric for 1.13, so :common is written directly in the MCP names Forge
-// uses here -- no mojmap -> MCP translation step and no access widener any more
+// 1.12 port: there is no Fabric for 1.12, so :common is written directly in the MCP names Forge
+// uses here -- no mojmap -> MCP translation step and no access widener
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -33,6 +32,33 @@ public interface IPottedBlockType {
   Block getFlowerBlock();
 
   /**
+   * 1.12 port: before the flattening a lot of plants are metadata variants of a shared block
+   * (leaves, double plants, tall grass), so the block alone does not identify the plant.
+   *
+   * @return The metadata of the flower block variant that should be potted
+   * @since 1.5
+   */
+  int getFlowerMeta();
+
+  /**
+   * @return The block state of the plant, used for its light level and its block colour
+   */
+  default IBlockState getFlowerState() {
+    return this.getFlowerBlock().getStateFromMeta(this.getFlowerMeta());
+  }
+
+  /**
+   * The item stack of the plant: what has to be right clicked onto an empty flower pot to get this
+   * potted block, and what the potted block gives back when it is broken or emptied again.
+   *
+   * <p>1.12 port: block loot tables only arrive in 1.14, so this is the drop as well.
+   *
+   * @return A fresh stack of the plant item
+   * @since 1.5
+   */
+  ItemStack createPlantStack();
+
+  /**
    * Creates a flowerpot block (the potted version) for the corresponding flower block.
    *
    * @return The potted block (flower pot)
@@ -40,44 +66,8 @@ public interface IPottedBlockType {
    * @see #getFlowerBlock()
    */
   default Block createPottedFlowerBlock(String modId) {
-    // 1.13 port: BlockFlowerPot, the class is only renamed to FlowerPotBlock in the 1.14 mappings.
-    // It drops the pot plus an ItemStack of its content itself (block loot tables only exist from
-    // 1.14 on) -- which is empty for plants without a block item, hence PottedCropBlock.
-    Block.Properties properties = createPottedFlowerBlockProperties(modId);
-    Item crop = this.getCropItem();
-    return crop == null
-      ? new BlockFlowerPot(this.getFlowerBlock(), properties)
-      : new PottedCropBlock(this.getFlowerBlock(), crop, properties);
-  }
-
-  /**
-   * The item this potted block should drop for its plant, for plants that have no block item
-   * (wheat, carrots, nether wart, ...) and would otherwise drop nothing but the pot.
-   *
-   * <p>1.13 port: from 1.14 on this is expressed by the block loot tables instead.
-   *
-   * @return The plant item to drop, or {@code null} to drop the flower block itself
-   * @since 1.5
-   */
-  default Item getCropItem() {
-    return null;
-  }
-
-  /**
-   * Creates the block properties for the potted block.
-   * Copied from vanilla FLOWER_POT properties.
-   * Applies flower block light level.
-   *
-   * @param modId The mod id to use for the resource location
-   * @return The block properties for the potted block
-   * @since 1.4.1
-   */
-  default Block.Properties createPottedFlowerBlockProperties(String modId) {
-    // 1.13 port: from() instead of copy(), lightValue(int) instead of lightLevel(...). No
-    //      zeroHardnessAndResistance() either, from(FLOWER_POT) already carries the zeroed
-    //      hardness and blast resistance over.
-    return Block.Properties.from(Blocks.FLOWER_POT)
-      .lightValue(getFlowerBlock().getDefaultState().getLightValue());
+    // 1.12 port: BlockFlowerPot cannot be extended usefully here, see PottedBlock
+    return new PottedBlock(this);
   }
 
   /**

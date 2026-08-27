@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_birch_leaves"
+    "normal": {
+      "model": "notenoughpots:potted_birch_leaves"
     }
   }
 }

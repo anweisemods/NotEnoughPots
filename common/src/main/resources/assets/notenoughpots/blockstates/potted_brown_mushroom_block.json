@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_brown_mushroom_block"
+    "normal": {
+      "model": "notenoughpots:potted_brown_mushroom_block"
     }
   }
 }

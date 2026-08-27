@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_sunflower"
+    "normal": {
+      "model": "notenoughpots:potted_sunflower"
     }
   }
 }

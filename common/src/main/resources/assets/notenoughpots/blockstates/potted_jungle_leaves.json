@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_jungle_leaves"
+    "normal": {
+      "model": "notenoughpots:potted_jungle_leaves"
     }
   }
 }

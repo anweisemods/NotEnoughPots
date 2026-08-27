@@ -1,7 +1,7 @@
 {
   "variants": {
-    "": {
-      "model": "notenoughpots:block/potted_lilac"
+    "normal": {
+      "model": "notenoughpots:potted_lilac"
     }
   }
 }
