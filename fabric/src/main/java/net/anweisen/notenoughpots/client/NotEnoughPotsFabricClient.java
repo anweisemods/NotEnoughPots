@@ -4,7 +4,10 @@ import net.anweisen.notenoughpots.NotEnoughPotsBlockType;
 import net.anweisen.notenoughpots.NotEnoughPotsCommons;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+// 1.15 port: the v0 colour registry, not rendering.v1 -- fabric-api 0.4.24+build.279-1.15 is the
+// only build that exists for 1.15.0 and it has no rendering.v1 package yet, while this one is in
+// every 1.15 build. Same class the 1.14 branch uses.
+import net.fabricmc.fabric.api.client.render.ColorProviderRegistry;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
