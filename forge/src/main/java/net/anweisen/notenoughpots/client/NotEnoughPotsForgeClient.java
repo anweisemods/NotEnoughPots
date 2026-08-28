@@ -17,10 +17,13 @@ import net.minecraftforge.fml.common.Mod;
  * @author anweisen | https://github.com/anweisen
  * @since 1.0
  */
+// 1.13 port: the FORGE bus, not the mod bus -- forge 25.x still posts ColorHandlerEvent from
+// ForgeHooksClient#onBlockColorsInit on MinecraftForge.EVENT_BUS. It only moves to the mod bus
+// (ModLoader#postEvent) with forge 28 for 1.14.4, which is what the 1.14+ branches subscribe to.
 @Mod.EventBusSubscriber(
   value = Dist.CLIENT,
   modid = NotEnoughPotsCommons.MOD_ID,
-  bus = Mod.EventBusSubscriber.Bus.MOD
+  bus = Mod.EventBusSubscriber.Bus.FORGE
 )
 public class NotEnoughPotsForgeClient {
 
