@@ -1,24 +1,22 @@
 plugins {
 	id 'multiloader-common'
-	id 'net.neoforged.moddev'
-}
-
-neoForge {
-	neoFormVersion = neo_form_version
-	// Automatically enable AccessTransformers if the file exists
-	def at = file('src/main/resources/META-INF/accesstransformer.cfg')
-	if (at.exists()) {
-		accessTransformers.add(at.absolutePath)
-	}
-	parchment {
-		minecraftVersion = parchment_minecraft
-		mappingsVersion = parchment_version
-	}
+	// moddevgradle needs a neoform version and neoform does not exist below 1.20.2, and every
+	// VanillaGradle release that is still published requires a java 25 launcher, which gradle 8.8
+	// cannot run on. loom is the remaining way to put a mojang-mapped minecraft on this module's
+	// compile classpath; nothing fabric specific is used here, and the loader modules compile these
+	// same sources against their own minecraft anyway.
+	id 'fabric-loom'
 }
 
 dependencies {
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	mappings loom.layered {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+	}
+
 	compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
-	// fabric and neoforge both bundle mixinextras, so it is safe to use it in common
+	// fabric and forge both bundle mixinextras, so it is safe to use it in common
 	compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 	annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 }
@@ -38,4 +36,3 @@ artifacts {
 	commonJava sourceSets.main.java.sourceDirectories.singleFile
 	commonResources sourceSets.main.resources.sourceDirectories.singleFile
 }
-

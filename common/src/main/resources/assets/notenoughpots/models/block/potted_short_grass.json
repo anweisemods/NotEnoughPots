@@ -3,6 +3,6 @@
   "ambientocclusion": false,
   "parent": "notenoughpots:block/template_potted_grass",
   "textures": {
-    "plant": "minecraft:block/short_grass"
+    "plant": "minecraft:block/grass"
   }
 }

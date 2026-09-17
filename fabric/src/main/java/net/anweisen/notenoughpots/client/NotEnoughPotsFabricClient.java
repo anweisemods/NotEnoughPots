@@ -24,7 +24,7 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     }
 
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SUGAR_CANE), NotEnoughPotsBlockType.POTTED_SUGAR_CANE.findBlock());
-    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.SHORT_GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
+    ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.GRASS), NotEnoughPotsBlockType.POTTED_SHORT_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.TALL_GRASS), NotEnoughPotsBlockType.POTTED_TALL_GRASS.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.LARGE_FERN), NotEnoughPotsBlockType.POTTED_LARGE_FERN.findBlock());
     ColorProviderRegistry.BLOCK.register(mimicBlockColor(Blocks.VINE), NotEnoughPotsBlockType.POTTED_VINE.findBlock());

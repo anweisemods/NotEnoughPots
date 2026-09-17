@@ -53,9 +53,8 @@ public interface IPottedBlockType {
    */
   default BlockBehaviour.Properties createPottedFlowerBlockProperties(String modId) {
     // Copies from vanilla FLOWER_POT properties
-    // (#6): no need to set loot_table manually [since 1.21: in "loot_table/blocks"]
-    // 1.21 port: no block id setter, but no need; in 1.21.2+ null pointer without
-    return BlockBehaviour.Properties.ofFullCopy(Blocks.FLOWER_POT)
+    // (#6): no need to set loot_table manually [before 1.21 the directory is "loot_tables/blocks"]
+    return BlockBehaviour.Properties.copy(Blocks.FLOWER_POT)
       .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission());
   }
 
@@ -69,7 +68,7 @@ public interface IPottedBlockType {
    * @since 1.4.1
    */
   default ResourceLocation createResourceLocation(String modId) {
-    return ResourceLocation.fromNamespaceAndPath(modId, this.getName());
+    return new ResourceLocation(modId, this.getName());
   }
 
 }
