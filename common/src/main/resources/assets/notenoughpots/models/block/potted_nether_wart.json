@@ -64,7 +64,7 @@
     {
       "from": [ 8, 4, 6 ],
       "to": [ 8, 14, 10 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "west": { "uv": [ 16, 0, 10, 16 ], "texture": "#crop" },
         "east": { "uv": [ 10, 0, 16, 16 ], "texture": "#crop" }
@@ -73,7 +73,7 @@
     {
       "from": [ 6, 4, 8 ],
       "to": [ 10, 14, 8 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "north": { "uv": [ 1, 0, 7, 16 ], "texture": "#crop" },
         "south": { "uv": [ 1, 0, 7, 16 ], "texture": "#crop" }

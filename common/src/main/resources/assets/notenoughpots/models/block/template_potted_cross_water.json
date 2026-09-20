@@ -73,7 +73,7 @@
       "from": [5.69, 5, 8],
       "to": [10.31, 12.7, 8],
       "rotation": {"origin": [8, 5, 8], "axis": "y", "angle": 45, "rescale": true},
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "north": {"uv": [1, 0, 15, 16], "texture": "#plant"},
         "south": {"uv": [1, 0, 15, 16], "texture": "#plant"}
@@ -83,7 +83,7 @@
       "from": [5.69, 5, 8],
       "to": [10.31, 12.7, 8],
       "rotation": {"origin": [8, 5, 8], "axis": "y", "angle": -45, "rescale": true},
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "north": {"uv": [1, 0, 15, 16], "texture": "#plant"},
         "south": {"uv": [1, 0, 15, 16], "texture": "#plant"}

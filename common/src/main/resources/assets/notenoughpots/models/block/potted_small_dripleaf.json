@@ -65,7 +65,7 @@
     {
       "from": [ 8, 8, 8 ],
       "to": [ 13, 8, 13 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "down":  { "uv": [ 8, 0, 0, 8 ], "texture": "#top" },
         "up":    { "uv": [ 8, 8, 0, 0 ], "texture": "#top" }
@@ -74,7 +74,7 @@
     {
       "from": [ 3, 12, 3 ],
       "to": [ 8, 12, 8 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "down":  { "uv": [ 0, 8, 8, 0 ], "texture": "#top" },
         "up":    { "uv": [ 0, 0, 8, 8 ], "texture": "#top" }
@@ -83,7 +83,7 @@
     {
       "from": [ 3, 16, 8 ],
       "to": [ 8, 16, 13 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "down":  { "uv": [ 8, 0, 0, 8 ], "texture": "#top" , "rotation": 270},
         "up":    { "uv": [ 0, 0, 8, 8 ], "texture": "#top" , "rotation": 270}
@@ -92,7 +92,7 @@
     {
       "from": [ 8, 7, 8 ],
       "to": [ 13, 8, 13 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "east": { "uv": [ 0, 0, 8, 1 ], "texture": "#side" },
         "west": { "uv": [ 0, 0, 8, 1 ], "texture": "#side" },
@@ -103,7 +103,7 @@
     {
       "from": [ 3, 11, 3 ],
       "to": [ 8, 12, 8 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "east": { "uv": [ 0, 0, 8, 1 ], "texture": "#side" },
         "west": { "uv": [ 0, 0, 8, 1 ], "texture": "#side" },
@@ -114,7 +114,7 @@
     {
       "from": [ 3, 15, 8 ],
       "to": [ 8, 16, 13 ],
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "east": { "uv": [ 0, 0, 8, 1 ], "texture": "#side"},
         "west": { "uv": [ 0, 0, 8, 1 ], "texture": "#side"},
@@ -126,7 +126,7 @@
       "from": [ 4.5, 4, 8 ],
       "to": [ 11.5, 18, 8 ],
       "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "north": { "uv": [ 4, 0, 12, 14 ], "texture": "#stem" },
         "south": { "uv": [ 4, 0, 12, 14 ], "texture": "#stem" }
@@ -136,7 +136,7 @@
       "from": [ 4.5, 4, 8 ],
       "to": [ 11.5, 18, 8 ],
       "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": -45, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "north": { "uv": [ 4, 0, 12, 14 ], "texture": "#stem" },
         "south": { "uv": [ 4, 0, 12, 14 ], "texture": "#stem" }

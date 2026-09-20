@@ -64,7 +64,7 @@
       "from": [ 8, 5.5, 4 ],
       "to": [ 16, 5.5, 12 ],
       "rotation": { "origin": [ 8, 5.5, 0 ], "axis": "z", "angle": 22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#flower", "rotation": 90 },
         "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#flower", "rotation": 270 }
@@ -74,7 +74,7 @@
       "from": [ -0, 5.5, 4 ],
       "to": [ 8, 5.5, 12 ],
       "rotation": { "origin": [ 8, 5.5, 0 ], "axis": "z", "angle": -22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#flower", "rotation": 270 },
         "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#flower", "rotation": 90 }
@@ -84,7 +84,7 @@
       "from": [ 4, 5.5, 8 ],
       "to": [ 12, 5.5, 16 ],
       "rotation": { "origin": [ 0, 5.5, 8 ], "axis": "x", "angle": -22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 16, 16, 0, 0 ], "texture": "#flower" },
         "down": { "uv": [ 16, 0, 0, 16 ], "texture": "#flower" }
@@ -94,7 +94,7 @@
       "from": [ 4, 5.5, -0 ],
       "to": [ 12, 5.5, 8 ],
       "rotation": { "origin": [ 0, 5.5, 8 ], "axis": "x", "angle": 22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#flower" },
         "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#flower" }

@@ -63,7 +63,7 @@
       "from": [ 8, 5.5, 5 ],
       "to": [ 14, 5.5, 11 ],
       "rotation": { "origin": [ 8, 5.5, 5 ], "axis": "z", "angle": 22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 2, 2, 14, 14 ], "texture": "#fan", "rotation": 90 },
         "down": { "uv": [ 2, 14, 14, 2 ], "texture": "#fan", "rotation": 270 }
@@ -73,7 +73,7 @@
       "from": [ 2, 5.5, 5 ],
       "to": [ 8, 5.5, 11 ],
       "rotation": { "origin": [ 8, 5.5, 5 ], "axis": "z", "angle": -22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 2, 2, 14, 14 ], "texture": "#fan", "rotation": 270 },
         "down": { "uv": [ 2, 14, 14, 2 ], "texture": "#fan", "rotation": 90 }
@@ -83,7 +83,7 @@
       "from": [ 5, 5.5, 8 ],
       "to": [ 11, 5.5, 14 ],
       "rotation": { "origin": [ 5, 5.5, 8 ], "axis": "x", "angle": -22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 14, 14, 2, 2 ], "texture": "#fan" },
         "down": { "uv": [ 14, 2, 2, 14 ], "texture": "#fan" }
@@ -93,7 +93,7 @@
       "from": [ 5, 5.5, 2 ],
       "to": [ 11, 5.5, 8 ],
       "rotation": { "origin": [ 5, 5.5, 8 ], "axis": "x", "angle": 22.5, "rescale": false },
-      "shade": false,
+      "shade_direction_override": "up",
       "faces": {
         "up": { "uv": [ 2, 2, 14, 14 ], "texture": "#fan" },
         "down": { "uv": [ 2, 14, 14, 2 ], "texture": "#fan" }
