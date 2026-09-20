@@ -10,7 +10,9 @@ public class NotEnoughPotsCommons {
 
   public static final String MOD_ID = "notenoughpots";
   public static final String MOD_NAME = "NotEnoughPots";
-  public static final int WARM_WATER_COLOR = 0x45ADF2;
+
+  /** ARGB since the 26.1 tint rework, not RGB: without the 0xFF the water came out at alpha 0, i.e. invisible */
+  public static final int WARM_WATER_COLOR = 0xFF45ADF2;
 
   private static IPlatformBridge<NotEnoughPotsBlockType> bridge;
 
