@@ -59,7 +59,8 @@ public interface IPottedBlockType {
   default BlockBehaviour.Properties createPottedFlowerBlockProperties(String modId) {
     // Copied from vanilla FLOWER_POT properties
     // (#6): no need to set loot_table manually [since 1.21: in "loot_table/blocks"]
-    return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)
+    // PushReaction.DESTROY has been renamed to POPPED in 26.3
+    return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.POPPED)
       .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission())
       .setId(ResourceKey.create(Registries.BLOCK, createResourceLocation(modId)));
   }

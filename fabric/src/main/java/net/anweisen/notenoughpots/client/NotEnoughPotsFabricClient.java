@@ -52,6 +52,7 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     // 1.21.5+
     BlockColorRegistry.register(mimicBlockColor(Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
     BlockColorRegistry.register(mimicBlockColor(Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+    // 26.3+ (the poplar leaves, RED_SHRUB and SHELF_MUSHROOM are not tinted!)
 
     BlockColorRegistry.register(agedStemBlockColor(Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     BlockColorRegistry.register(agedStemBlockColor(Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());

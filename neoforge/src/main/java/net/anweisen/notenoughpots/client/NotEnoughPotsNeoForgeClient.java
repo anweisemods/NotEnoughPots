@@ -60,6 +60,7 @@ public class NotEnoughPotsNeoForgeClient {
     // 1.21.5+
     event.register(mimicBlockColor(blockColors, Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
     event.register(mimicBlockColor(blockColors, Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+    // 26.3+ (the poplar leaves, RED_SHRUB and SHELF_MUSHROOM are not tinted!)
 
     event.register(agedStemBlockColor(blockColors, Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     event.register(agedStemBlockColor(blockColors, Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());

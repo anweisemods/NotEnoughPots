@@ -1,0 +1,7 @@
+{
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_leaves",
+  "textures": {
+    "side": "minecraft:block/orange_poplar_leaves"
+  }
+}
