@@ -1,0 +1,95 @@
+{
+  "name": "NotEnoughPots",
+  "author": "anweisen",
+  "footer": "github.com/anweisemods/NotEnoughPots",
+  "downloads": {
+    "modrinth": "https://modrinth.com/mod/not-enough-pots",
+    "curseforge": "https://www.curseforge.com/minecraft/mc-mods/not-enough-pots"
+  },
+  "resources": [
+    "common/src/main/resources"
+  ],
+  "enum_java": "common/src/main/java/net/anweisen/notenoughpots/NotEnoughPotsBlockType.java",
+  "since_base": "1.12.2",
+  "item_namespace": "minecraft",
+  "item_aliases": {
+    "beetroots": "beetroot_seeds",
+    "carrots": "carrot",
+    "cave_vines": "glow_berries",
+    "cocoa": "cocoa_beans",
+    "melon_stem": "melon_seeds",
+    "pitcher_crop": "pitcher_pod",
+    "potatoes": "potato",
+    "pumpkin_stem": "pumpkin_seeds",
+    "sweet_berry_bush": "sweet_berries",
+    "torchflower_crop": "torchflower_seeds",
+    "wheat": "wheat_seeds"
+  },
+  "tints": {
+    "brain_coral": [
+      "#45adf2"
+    ],
+    "brain_coral_fan": [
+      "#45adf2"
+    ],
+    "bubble_coral": [
+      "#45adf2"
+    ],
+    "bubble_coral_fan": [
+      "#45adf2"
+    ],
+    "fire_coral": [
+      "#45adf2"
+    ],
+    "fire_coral_fan": [
+      "#45adf2"
+    ],
+    "grass_block": [
+      "grass"
+    ],
+    "horn_coral": [
+      "#45adf2"
+    ],
+    "horn_coral_fan": [
+      "#45adf2"
+    ],
+    "kelp": [
+      "#45adf2"
+    ],
+    "leaf_litter": [
+      "#a37546"
+    ],
+    "lily_pad": [
+      "#45adf2",
+      "#208030"
+    ],
+    "melon_stem": [
+      {
+        "stem": 5
+      }
+    ],
+    "pink_petals": [
+      "grass"
+    ],
+    "pumpkin_stem": [
+      {
+        "stem": 7
+      }
+    ],
+    "seagrass": [
+      "#45adf2"
+    ],
+    "sugar_cane": [
+      "grass"
+    ],
+    "tube_coral": [
+      "#45adf2"
+    ],
+    "tube_coral_fan": [
+      "#45adf2"
+    ],
+    "wildflowers": [
+      "grass"
+    ]
+  }
+}

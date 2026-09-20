@@ -1,0 +1,80 @@
+name: Gallery
+
+# Renders every potted variant on this branch. Each branch is one Minecraft version, so
+# the artifact is per version; only the default branch publishes to Pages.
+on:
+  push:
+    paths:
+      - 'common/src/main/resources/assets/**'
+      - 'common/src/main/java/**/NotEnoughPotsBlockType.java'
+      - 'gallery.json'
+      # A version bump shows on the sheet, and a build change can move the
+      # dependency jars the renderer reads textures out of.
+      - 'gradle.properties'
+      - '**/build.gradle'
+      - '.github/workflows/gallery.yml'
+  pull_request:
+    paths:
+      - 'common/src/main/resources/assets/**'
+      - 'gallery.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Read the JDK out of the build itself. Each branch is a different Minecraft
+      # version with a different requirement -- 26.x needs 25, the 1.21 branches need 21
+      # -- so hardcoding one here breaks every other branch.
+      - id: jdk
+        run: echo "version=$(sed -n 's/^java_version=//p' gradle.properties | head -1)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ steps.jdk.outputs.version }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # The renderer needs the vanilla client jar and any dependency jars. Rather than
+      # re-implement artifact resolution, let the build download them: loom leaves the
+      # client jar in ~/.gradle/caches/fabric-loom/<version>/ where the renderer looks.
+      - name: Resolve Minecraft and mod dependencies
+        run: |
+          chmod +x gradlew   # the repo is authored on Windows, so the bit is not committed
+          ./gradlew :fabric:classes --no-daemon
+
+      - uses: anweisemods/potted-gallery@v1
+        with:
+          config: gallery.json
+          out: build/gallery
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gallery-${{ github.ref_name }}
+          path: build/gallery
+          if-no-files-found: error
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref_name == github.event.repository.default_branch
+        with:
+          path: build/gallery
+
+  publish:
+    needs: render
+    if: github.ref_name == github.event.repository.default_branch && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

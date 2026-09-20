@@ -25,7 +25,6 @@ Allows you to place any plant into vanilla flower pots</p> 
 
 <div align="center">
 
-![](https://media.forgecdn.net/attachments/description/1120989/description_c397814b-9f65-4d0c-84c8-f7e4219f8b61.png)
-![](https://media.forgecdn.net/attachments/description/1120989/description_f382af73-89b8-418e-b911-7b19a6231855.png)
+[![](https://nep.mods.anweisen.net/overview.png)](https://nep.mods.anweisen.net)
 
 </div>
