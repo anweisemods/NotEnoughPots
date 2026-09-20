@@ -1,0 +1,8 @@
+{
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_bamboo_block",
+  "textures": {
+    "side": "minecraft:block/stripped_bamboo_block",
+    "top": "minecraft:block/stripped_bamboo_block_top"
+  }
+}

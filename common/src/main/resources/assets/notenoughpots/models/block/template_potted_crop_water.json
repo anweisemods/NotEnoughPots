@@ -51,6 +51,14 @@
       }
     },
     {
+      "name": "pot_bottom",
+      "from": [6, 0, 6],
+      "to": [10, 3, 10],
+      "faces": {
+        "down": {"uv": [6, 12, 10, 16], "texture": "#flowerpot", "cullface": "down"}
+      }
+    },
+    {
       "name": "water_fill",
       "from": [6, 3, 6],
       "to": [10, 5, 10],

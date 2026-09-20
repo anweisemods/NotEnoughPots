@@ -1,0 +1,9 @@
+{
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_ground_6x6_overlay",
+  "textures": {
+    "side": "minecraft:block/grass_block_side",
+    "top": "minecraft:block/grass_block_top",
+    "overlay": "minecraft:block/grass_block_side_overlay"
+  }
+}

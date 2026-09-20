@@ -43,21 +43,24 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
     BlockColorRegistry.register(mimicBlockColor(Blocks.JUNGLE_LEAVES), NotEnoughPotsBlockType.POTTED_JUNGLE_LEAVES.findBlock());
     BlockColorRegistry.register(mimicBlockColor(Blocks.ACACIA_LEAVES), NotEnoughPotsBlockType.POTTED_ACACIA_LEAVES.findBlock());
     BlockColorRegistry.register(mimicBlockColor(Blocks.DARK_OAK_LEAVES), NotEnoughPotsBlockType.POTTED_DARK_OAK_LEAVES.findBlock());
-    // 1.17+ (AZALEA_LEAVES and FLOWERING_AZALEA_LEAVES are not tinted!)
-    // 1.19+
+    BlockColorRegistry.register(mimicBlockColor(Blocks.GRASS_BLOCK), NotEnoughPotsBlockType.POTTED_GRASS_BLOCK.findBlock());
+    BlockColorRegistry.register(waterPlantBlockColor(Blocks.LILY_PAD), NotEnoughPotsBlockType.POTTED_LILY_PAD.findBlock());
+    // 1.17+ (AZALEA_LEAVES, FLOWERING_AZALEA_LEAVES and GLOW_LICHEN are not tinted!)
+    // 1.19+ (MANGROVE_ROOTS is not tinted!)
     BlockColorRegistry.register(mimicBlockColor(Blocks.MANGROVE_LEAVES), NotEnoughPotsBlockType.POTTED_MANGROVE_LEAVES.findBlock());
-    // 1.20+
+    // 1.20+ (the two bamboo blocks are not tinted!)
     BlockColorRegistry.register(mimicBlockColor(Blocks.PINK_PETALS), NotEnoughPotsBlockType.POTTED_PINK_PETALS.findBlock());
     // 1.20.3+ (PALE_OAK_LEAVES are not tinted!)
     // 1.21.5+
     BlockColorRegistry.register(mimicBlockColor(Blocks.BUSH), NotEnoughPotsBlockType.POTTED_BUSH.findBlock());
     BlockColorRegistry.register(mimicBlockColor(Blocks.WILDFLOWERS), NotEnoughPotsBlockType.POTTED_WILDFLOWERS.findBlock());
+    BlockColorRegistry.register(mimicBlockColor(Blocks.LEAF_LITTER), NotEnoughPotsBlockType.POTTED_LEAF_LITTER.findBlock());
     // 26.3+ (the poplar leaves, RED_SHRUB and SHELF_MUSHROOM are not tinted!)
 
     BlockColorRegistry.register(agedStemBlockColor(Blocks.MELON_STEM, 5), NotEnoughPotsBlockType.POTTED_MELON_STEM.findBlock());
     BlockColorRegistry.register(agedStemBlockColor(Blocks.PUMPKIN_STEM, 7), NotEnoughPotsBlockType.POTTED_PUMPKIN_STEM.findBlock());
 
-    // 1.13+
+    // 1.13+ (DRIED_KELP_BLOCK is not tinted!)
     BlockColorRegistry.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_KELP.findBlock());
     BlockColorRegistry.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_SEAGRASS.findBlock());
     BlockColorRegistry.register(warmWaterBlockColor(), NotEnoughPotsBlockType.POTTED_TUBE_CORAL.findBlock());
@@ -123,6 +126,14 @@ public class NotEnoughPotsFabricClient implements ClientModInitializer {
 
   private static List<BlockTintSource> warmWaterBlockColor() {
     return List.of(BlockTintSources.constant(NotEnoughPotsCommons.WARM_WATER_COLOR));
+  }
+
+  /**
+   * A plant potted in water, whose own colour is registered by vanilla.
+   * Layer 0 is the water surface of the model, layer 1 the plant floating on it.
+   */
+  private static List<BlockTintSource> waterPlantBlockColor(Block plant) {
+    return List.of(BlockTintSources.constant(NotEnoughPotsCommons.WARM_WATER_COLOR), mimicTintSource(plant.defaultBlockState(), 0));
   }
 
 }

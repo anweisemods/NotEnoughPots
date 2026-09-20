@@ -1,9 +1,10 @@
 {
   "ambientocclusion": false,
   "textures": {
-    "particle": "block/flower_pot",
-    "flowerpot": "block/flower_pot",
-    "dirt": "block/dirt"
+    "particle": "minecraft:block/flower_pot",
+    "flowerpot": "minecraft:block/flower_pot",
+    "dirt": "minecraft:block/dirt",
+    "plant": "minecraft:block/glow_lichen"
   },
   "elements": [
     {
@@ -60,43 +61,31 @@
     },
 
     {
-      "from": [ 6, 6, 6 ],
-      "to": [ 10, 16, 6 ],
+      "from": [ 6, 4.02, 6 ],
+      "to": [ 10, 4.02, 10 ],
       "faces": {
-        "north": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 },
-        "south": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 }
+        "up":   { "uv": [ 9, 9, 13, 13 ], "texture": "#plant" },
+        "down": { "uv": [ 9, 13, 13, 9 ], "texture": "#plant" }
       }
     },
     {
-      "from": [ 6, 6, 10 ],
-      "to": [ 10, 16, 10 ],
+      "from": [ 5.9, 4, 8 ],
+      "to": [ 10.1, 11, 8 ],
+      "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": true },
+      "shade_direction_override": "up",
       "faces": {
-        "south": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 },
-        "north": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 }
+        "north": { "uv": [ 9, 0, 15, 7 ], "texture": "#plant" },
+        "south": { "uv": [ 15, 0, 9, 7 ], "texture": "#plant" }
       }
     },
     {
-      "from": [ 6, 6, 6 ],
-      "to": [ 6, 16, 10 ],
+      "from": [ 8, 4, 5.9 ],
+      "to": [ 8, 11, 10.1 ],
+      "rotation": { "origin": [ 8, 8, 8 ], "axis": "y", "angle": 45, "rescale": true },
+      "shade_direction_override": "up",
       "faces": {
-        "west": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 },
-        "east": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 }
-      }
-    },
-    {
-      "from": [ 10, 6, 6 ],
-      "to": [ 10, 16, 10 ],
-      "faces": {
-        "east": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 },
-        "west": { "uv": [ 0, 0, 4, 10 ], "texture": "#side", "tintindex": 0 }
-      }
-    },
-    {
-      "from": [ 6, 16, 6 ],
-      "to": [ 10, 16, 10 ],
-      "faces": {
-        "up":   { "uv": [ 0, 0, 4, 4 ], "texture": "#side", "tintindex": 0 },
-        "down": { "uv": [ 0, 0, 4, 4 ], "texture": "#side", "tintindex": 0 }
+        "west": { "uv": [ 9, 0, 15, 7 ], "texture": "#plant" },
+        "east": { "uv": [ 15, 0, 9, 7 ], "texture": "#plant" }
       }
     }
   ]

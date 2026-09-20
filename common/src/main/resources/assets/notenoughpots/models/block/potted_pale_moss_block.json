@@ -1,0 +1,8 @@
+{
+  "ambientocclusion": false,
+  "parent": "notenoughpots:block/template_potted_ground",
+  "textures": {
+    "side": "minecraft:block/pale_moss_block",
+    "top": "minecraft:block/pale_moss_block"
+  }
+}
