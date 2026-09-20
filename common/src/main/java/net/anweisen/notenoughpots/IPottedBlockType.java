@@ -38,7 +38,6 @@ public interface IPottedBlockType {
    * Creates a flowerpot block (the potted version) for the corresponding flower block.
    *
    * @return The potted block (flower pot)
-   *
    * @see #getFlowerBlock()
    */
   default Block createPottedFlowerBlock(String modId) {
@@ -61,8 +60,23 @@ public interface IPottedBlockType {
     // (#6): no need to set loot_table manually [since 1.21: in "loot_table/blocks"]
     // PushReaction.DESTROY has been renamed to POPPED in 26.3
     return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.POPPED)
-      .lightLevel(state -> getFlowerBlock().defaultBlockState().getLightEmission())
+      .lightLevel(state -> getLightEmission())
       .setId(ResourceKey.create(Registries.BLOCK, createResourceLocation(modId)));
+  }
+
+  /**
+   * The light level the potted block emits.
+   * Defaults to what the flower block emits in its default state, which is where almost
+   * every block states its emission.
+   * Override it for a flower block whose emission is gated on a block state property the
+   * potted block does not have, and whose default state therefore reads as dark.
+   *
+   * @return The light level to emit, 0-15
+   * @since 1.5.1
+   * @see #getFlowerBlock()
+   */
+  default int getLightEmission() {
+    return this.getFlowerBlock().defaultBlockState().getLightEmission();
   }
 
   /**

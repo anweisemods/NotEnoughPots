@@ -2,6 +2,7 @@ package net.anweisen.notenoughpots;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.Locale;
 
 /**
@@ -122,11 +123,30 @@ public enum NotEnoughPotsBlockType implements IPottedBlockType {
 
   private final String name;
   private final Block flower;
+  private final boolean litWhenPlaced;
 
   NotEnoughPotsBlockType(Block flower) {
+    this(flower, false);
+  }
+
+  /**
+   * @param litWhenPlaced Whether the flower block only emits light in states the potted block
+   *                      does not have, so that its default state reads as dark. Its emission
+   *                      is then taken from the brightest state it can be in instead, which is
+   *                      the one it is always in once placed.
+   */
+  NotEnoughPotsBlockType(Block flower, boolean litWhenPlaced) {
     this.flower = flower;
+    this.litWhenPlaced = litWhenPlaced;
     // using Locale.ROOT fixes https://github.com/anweisemods/NotEnoughPots/issues/4
     this.name = this.name().toLowerCase(Locale.ROOT);
+  }
+
+  @Override
+  public int getLightEmission() {
+    if (!this.litWhenPlaced) return IPottedBlockType.super.getLightEmission();
+    return this.flower.getStateDefinition().getPossibleStates().stream()
+      .mapToInt(BlockState::getLightEmission).max().orElse(0);
   }
 
   @Override
